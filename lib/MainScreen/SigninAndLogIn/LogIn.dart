@@ -1,5 +1,8 @@
 import 'package:azaproject/MainScreen/Pages.dart';
+<<<<<<< HEAD
 import 'package:azaproject/MainScreen/SigninAndLogIn/SignIn1.dart';
+=======
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
 import 'package:azaproject/Util/CalendarState.dart';
 import 'package:azaproject/Util/MyBottom.dart';
 import 'package:azaproject/Util/TextField.dart';
@@ -18,6 +21,7 @@ class _LogInScreenState extends State<LogInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,12 +37,33 @@ class _LogInScreenState extends State<LogInScreen> {
           ],
         ),
       ),
+=======
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 100.0, left: 14, right: 14),
           child: Column(
             children: [
               Padding(
+<<<<<<< HEAD
+=======
+                padding: const EdgeInsets.only(bottom: 30.0, top: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Bon retour parmi nous',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: couleur.SecondaryColors,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
                 padding: const EdgeInsets.only(top: 30.0, bottom: 20),
                 child: Form(
                     child: MyTextField(
@@ -147,6 +172,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+<<<<<<< HEAD
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -168,6 +194,15 @@ class _LogInScreenState extends State<LogInScreen> {
                         ),
                       ],
                     )
+=======
+                    Text('vous n\'avez pas de compte ?'),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'créez en un',
+                          style: TextStyle(color: couleur.SecondaryColors),
+                        ))
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
                   ],
                 ),
               )

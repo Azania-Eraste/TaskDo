@@ -21,7 +21,10 @@ class ProjectTile extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(24),
       child: Container(
+<<<<<<< HEAD
         height: MediaQuery.of(context).size.height,
+=======
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
         padding: EdgeInsets.only(left: 15, right: 15, top: 24, bottom: 24),
         child: Column(
           children: [

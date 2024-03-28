@@ -254,7 +254,11 @@ class _MyPagesState extends State<MyPages> {
               ),
       ),
       backgroundColor: couleur.Screen,
+<<<<<<< HEAD
       body: Expanded(child: pages[_selectedIndex]),
+=======
+      body: pages[_selectedIndex],
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: couleur.SecondaryColors,

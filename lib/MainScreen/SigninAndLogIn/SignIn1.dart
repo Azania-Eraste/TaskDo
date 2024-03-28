@@ -1,7 +1,10 @@
+<<<<<<< HEAD
 import 'package:azaproject/MainScreen/SigninAndLogIn/SignIn2.dart';
 import 'package:azaproject/Util/CalendarState.dart';
 import 'package:azaproject/Util/MyBottom.dart';
 import 'package:azaproject/Util/TextField.dart';
+=======
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
 import 'package:flutter/material.dart';
 
 class SignIn_1 extends StatefulWidget {
@@ -12,6 +15,7 @@ class SignIn_1 extends StatefulWidget {
 }
 
 class _SignIn_1State extends State<SignIn_1> {
+<<<<<<< HEAD
   TextEditingController nomControlleur = new TextEditingController();
   TextEditingController prenomControlleur = new TextEditingController();
   bool radioCheck = false;
@@ -157,5 +161,10 @@ class _SignIn_1State extends State<SignIn_1> {
         ),
       ),
     );
+=======
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
   }
 }

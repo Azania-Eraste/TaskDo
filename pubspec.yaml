@@ -34,11 +34,14 @@ dependencies:
   syncfusion_flutter_calendar: ^25.1.35
   flutter_slidable: ^3.1.0
   flutter_svg: ^2.0.10+1
+  cupertino_icons: ^1.0.2
+<<<<<<< HEAD
 
-
+=======
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  
 
 dev_dependencies:
   flutter_test:

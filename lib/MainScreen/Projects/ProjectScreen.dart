@@ -26,7 +26,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
   int NombreProjet = 3;
   int Projetstarted = 1;
   int ProjetAFaire = 2;
+<<<<<<< HEAD
   ScrollController scrollController = new ScrollController();
+=======
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
 
   void _Projet(List ProjectDo, List ProjetStarted) {
     setState(() {
@@ -128,6 +131,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
         break;
     }
 
+<<<<<<< HEAD
+=======
+    // ignore: unused_local_variable
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
     String formattedDate =
         " $Day le ${currentDate.day} à ${currentDate.hour}h${currentDate.minute}min";
 
@@ -181,7 +188,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
                 height: 100,
                 width: double.infinity,
                 child: ListView.builder(
+<<<<<<< HEAD
                   controller: scrollController,
+=======
+>>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
                   itemCount: monthDay.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {

@@ -1,10 +1,8 @@
-<<<<<<< HEAD
 import 'package:azaproject/MainScreen/SigninAndLogIn/SignIn2.dart';
 import 'package:azaproject/Util/CalendarState.dart';
+import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/MyBottom.dart';
 import 'package:azaproject/Util/TextField.dart';
-=======
->>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
 import 'package:flutter/material.dart';
 
 class SignIn_1 extends StatefulWidget {
@@ -15,9 +13,8 @@ class SignIn_1 extends StatefulWidget {
 }
 
 class _SignIn_1State extends State<SignIn_1> {
-<<<<<<< HEAD
-  TextEditingController nomControlleur = new TextEditingController();
-  TextEditingController prenomControlleur = new TextEditingController();
+  TextEditingController nomControlleur = TextEditingController();
+  TextEditingController prenomControlleur = TextEditingController();
   bool radioCheck = false;
   String _selectedGender = '';
   @override
@@ -30,10 +27,7 @@ class _SignIn_1State extends State<SignIn_1> {
           children: [
             Text(
               'Créer un compte',
-              style: TextStyle(
-                  color: couleur.SecondaryColors,
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold),
+              style: Fonts.boldSecondaryMid,
             ),
           ],
         ),
@@ -48,8 +42,10 @@ class _SignIn_1State extends State<SignIn_1> {
                   padding: const EdgeInsets.only(top: 30.0, bottom: 20),
                   child: Form(
                       child: MyTextField(
+                    style: Fonts.boldBlack,
                     fillcolor: Colors.transparent,
                     Radius: 5,
+                    HintStyle: Fonts.regularHint,
                     text: 'Nom ',
                     controller: nomControlleur,
                     PasswordChar: false,
@@ -59,8 +55,10 @@ class _SignIn_1State extends State<SignIn_1> {
                   padding: const EdgeInsets.only(top: 30.0, bottom: 20),
                   child: Form(
                       child: MyTextField(
+                    style: Fonts.boldBlack,
                     fillcolor: Colors.transparent,
                     Radius: 5,
+                    HintStyle: Fonts.regularHint,
                     text: 'Prenom',
                     controller: prenomControlleur,
                     PasswordChar: false,
@@ -74,10 +72,7 @@ class _SignIn_1State extends State<SignIn_1> {
                         children: [
                           Text(
                             'Sexe',
-                            style: TextStyle(
-                                color: couleur.Text,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold),
+                            style: Fonts.boldBlackMid,
                           ),
                         ],
                       ),
@@ -86,10 +81,7 @@ class _SignIn_1State extends State<SignIn_1> {
                 ),
                 // Bouton radio pour "Homme"
                 RadioListTile(
-                  title: Text(
-                    'Homme',
-                    style: TextStyle(fontSize: 22),
-                  ),
+                  title: Text('Homme', style: Fonts.boldBlack),
                   value: 'Homme',
                   groupValue: _selectedGender,
                   onChanged: (value) {
@@ -100,10 +92,7 @@ class _SignIn_1State extends State<SignIn_1> {
                 ),
                 // Bouton radio pour "Femme"
                 RadioListTile(
-                  title: Text(
-                    'Femme',
-                    style: TextStyle(fontSize: 22),
-                  ),
+                  title: Text('Femme', style: Fonts.boldBlack),
                   value: 'Femme',
                   groupValue: _selectedGender,
                   onChanged: (value) {
@@ -114,10 +103,7 @@ class _SignIn_1State extends State<SignIn_1> {
                 ),
                 // Bouton radio pour "Autre"
                 RadioListTile(
-                  title: Text(
-                    'Autre',
-                    style: TextStyle(fontSize: 22),
-                  ),
+                  title: Text('Autre', style: Fonts.boldBlack),
                   value: 'Autre',
                   groupValue: _selectedGender,
                   onChanged: (value) {
@@ -128,32 +114,29 @@ class _SignIn_1State extends State<SignIn_1> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(30.0),
-                  child: Container(
+                  child: SizedBox(
                       width: 360,
-                      height: 50,
+                      height: 60,
                       child: MyBottom(
-                        text: 'Contunier',
-                        OnPressed: () {
-                          print(_selectedGender);
-                          if (nomControlleur.text.isNotEmpty &&
-                              prenomControlleur.text.isNotEmpty &&
-                              _selectedGender != '') {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignIn_2()));
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Champ non rempli'),
-                                duration: Duration(seconds: 3),
-                              ),
-                            );
-                          }
-                        },
-                        textStyle: TextStyle(
-                            color: couleur.primarycolors, fontSize: 26),
-                      )),
+                          text: 'Continuer',
+                          onPressed: () {
+                            if (nomControlleur.text.isNotEmpty &&
+                                prenomControlleur.text.isNotEmpty &&
+                                _selectedGender != '') {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const SignIn_2()));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Champ non rempli'),
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
+                            }
+                          },
+                          textStyle: Fonts.boldPrimaryMid)),
                 )
               ],
             ),
@@ -161,10 +144,5 @@ class _SignIn_1State extends State<SignIn_1> {
         ),
       ),
     );
-=======
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
->>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
   }
 }

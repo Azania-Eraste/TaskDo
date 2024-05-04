@@ -1,12 +1,12 @@
+import 'package:azaproject/List/Note.dart';
 import 'package:azaproject/Util/CalendarState.dart';
+import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/Notes_tile.dart';
 import 'package:flutter/material.dart';
 
 class NotesScreen extends StatefulWidget {
-  final List<List<dynamic>> NoteList;
-  NotesScreen({
+  const NotesScreen({
     super.key,
-    required this.NoteList,
   });
 
   @override
@@ -14,9 +14,37 @@ class NotesScreen extends StatefulWidget {
 }
 
 class _NotesScreenState extends State<NotesScreen> {
-  void DeleteNote(int index) {
+  int notes = 0;
+  void verificatedeletedNote(int index) {
     setState(() {
-      widget.NoteList.removeAt(index);
+      NoteList.removeAt(index);
+      _notes(NoteList);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _notes(NoteList);
+  }
+
+  void _notes(List noteslist) {
+    notes = noteslist.length;
+  }
+
+  void deleteNote(int index) {
+    List temp = NoteList[index];
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: couleur.SecondaryColors,
+      content: Text(
+        'Etes-vous sûr de vouloir supprimer \'${temp[0]}\'',
+        style: Fonts.boldPrimary,
+      ),
+      action: SnackBarAction(
+          label: 'OUI', onPressed: () => verificatedeletedNote(index)),
+    ));
+    setState(() {
+      _notes(NoteList);
     });
   }
 
@@ -29,26 +57,35 @@ class _NotesScreenState extends State<NotesScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                'Notes',
-                style: TextStyle(
-                    color: couleur.SecondaryColors,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold),
+              Text('Notes', style: Fonts.boldSecondaryBig),
+              Container(
+                margin: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: couleur.TertiaryColors),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2, left: 5, right: 5),
+                  child: Text(
+                    '$notes',
+                    style: Fonts.boldPrimaryMid,
+                  ),
+                ),
               ),
             ],
           ),
         ),
         Expanded(
             child: ListView.builder(
-          itemCount: widget.NoteList.length,
+          itemCount: NoteList.length,
           itemBuilder: (BuildContext context, int index) {
             return MyNotes(
-              Title: widget.NoteList[index][0],
-              Description: widget.NoteList[index][1],
-              onTapped: () => DeleteNote(index),
-              notes: widget.NoteList,
+              Title: NoteList[index][0],
+              Description: NoteList[index][1],
+              onTapped: () => deleteNote(index),
+              notes: NoteList,
               index: index,
+              formattedDate: NoteList[index][2],
             );
           },
         ))

@@ -6,19 +6,19 @@ import 'package:flutter/material.dart';
 class MyIcon extends StatelessWidget {
   final IconData iconFalse;
   final IconData icontrue;
-  Function()? Onchanged;
+  Function()? onchanged;
   final bool value;
   MyIcon(
       {super.key,
       required this.iconFalse,
       required this.icontrue,
-      required this.Onchanged,
+      required this.onchanged,
       required this.value});
-  final MyColors couleur = new MyColors();
+  final MyColors couleur = MyColors();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: Onchanged,
+      onTap: onchanged,
       child: Icon(
         value ? icontrue : iconFalse,
         size: 24,

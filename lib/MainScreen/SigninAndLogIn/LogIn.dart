@@ -1,12 +1,13 @@
-import 'package:azaproject/MainScreen/Pages.dart';
-<<<<<<< HEAD
+import 'package:azaproject/MainScreen/ForgotPassword/NumberAuthentification.dart';
+import 'package:azaproject/MainScreen/pages.dart';
 import 'package:azaproject/MainScreen/SigninAndLogIn/SignIn1.dart';
-=======
->>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
+import 'package:azaproject/Service/User.dart';
 import 'package:azaproject/Util/CalendarState.dart';
+import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/MyBottom.dart';
 import 'package:azaproject/Util/TextField.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -16,60 +17,35 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  TextEditingController nomControlleur = new TextEditingController();
-  TextEditingController passwordControlleur = new TextEditingController();
+  TextEditingController nomControlleur = TextEditingController();
+  TextEditingController passwordControlleur = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Bon retour parmi nous',
-              style: TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-                color: couleur.SecondaryColors,
-              ),
-            ),
-          ],
+        title: Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Bon retour parmis nous', style: Fonts.boldSecondaryMid),
+            ],
+          ),
         ),
       ),
-=======
->>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 100.0, left: 14, right: 14),
           child: Column(
             children: [
               Padding(
-<<<<<<< HEAD
-=======
-                padding: const EdgeInsets.only(bottom: 30.0, top: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Bon retour parmi nous',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: couleur.SecondaryColors,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
->>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
                 padding: const EdgeInsets.only(top: 30.0, bottom: 20),
                 child: Form(
                     child: MyTextField(
                   fillcolor: Colors.transparent,
                   Radius: 5,
                   text: 'Nom d\'utilisateur',
+                  HintStyle: Fonts.regularHint,
+                  style: Fonts.boldBlack,
                   controller: nomControlleur,
                   PasswordChar: false,
                 )),
@@ -81,6 +57,8 @@ class _LogInScreenState extends State<LogInScreen> {
                   fillcolor: Colors.transparent,
                   Radius: 5,
                   text: 'Mot de passe',
+                  HintStyle: Fonts.regularHint,
+                  style: Fonts.boldBlack,
                   controller: passwordControlleur,
                   PasswordChar: true,
                 )),
@@ -91,49 +69,66 @@ class _LogInScreenState extends State<LogInScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Number()));
+                      },
                       child: Text(
                         'Mot de passe oublié ?',
-                        style: TextStyle(color: couleur.Text1),
+                        style: Fonts.regularBlack,
                       ),
                     )
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: Container(
-                    width: 360,
-                    height: 50,
+                padding: const EdgeInsets.all(20.0),
+                child: SizedBox(
+                    width: 350,
+                    height: 60,
                     child: MyBottom(
-                      text: 'Se connecter',
-                      OnPressed: () {
-                        if (nomControlleur.text.isNotEmpty &&
-                            passwordControlleur.text.isNotEmpty) {
-                          print('connection');
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MyPages()));
-                        }
-                      },
-                      textStyle:
-                          TextStyle(color: couleur.primarycolors, fontSize: 26),
-                    )),
+                        text: 'Se connecter',
+                        onPressed: () {
+                          if (nomControlleur.text.isNotEmpty &&
+                              passwordControlleur.text.isNotEmpty) {
+                            User.name = nomControlleur.text;
+                            User.password = passwordControlleur.text;
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MyPages()));
+                          }
+                        },
+                        textStyle: Fonts.boldPrimaryMid)),
               ),
               Padding(
-                padding: const EdgeInsets.all(25.0),
+                padding: const EdgeInsets.all(30.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Divider(
+                      thickness: 2,
+                      endIndent: 5,
+                      indent: 5,
+                      color: couleur.SecondaryColors,
+                    ),
                     Text(
                       ' Ou continuer avec ',
-                      style: TextStyle(color: couleur.Text1, fontSize: 15),
-                    )
+                      style: Fonts.regularBlackMId,
+                    ),
+                    Divider(
+                      thickness: 2,
+                      endIndent: 5,
+                      indent: 5,
+                      color: couleur.SecondaryColors,
+                    ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -144,7 +139,9 @@ class _LogInScreenState extends State<LogInScreen> {
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                               color: couleur.SecondaryColors, width: 3)),
-                      child: Center(child: Text('Facebook')),
+                      child: Center(
+                          child: SvgPicture.asset(
+                              'lib/images/facebook (2) 1.svg')),
                     ),
                     Container(
                       width: 70,
@@ -153,7 +150,11 @@ class _LogInScreenState extends State<LogInScreen> {
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                               color: couleur.SecondaryColors, width: 3)),
-                      child: Center(child: Text('Apple')),
+                      child: Center(
+                          child: SvgPicture.asset(
+                        'lib/images/apple.svg',
+                        height: 40,
+                      )),
                     ),
                     Container(
                       width: 70,
@@ -162,7 +163,11 @@ class _LogInScreenState extends State<LogInScreen> {
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                               color: couleur.SecondaryColors, width: 3)),
-                      child: Center(child: Text('Google')),
+                      child: Center(
+                          child: SvgPicture.asset(
+                        'lib/images/google.svg',
+                        height: 40,
+                      )),
                     )
                   ],
                 ),
@@ -172,12 +177,14 @@ class _LogInScreenState extends State<LogInScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-<<<<<<< HEAD
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text('vous n\'avez pas de compte ?'),
-                        SizedBox(
+                        Text(
+                          'vous n\'avez pas de compte ?',
+                          style: Fonts.regularBlackSmall,
+                        ),
+                        const SizedBox(
                           width: 5,
                         ),
                         GestureDetector(
@@ -185,24 +192,15 @@ class _LogInScreenState extends State<LogInScreen> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SignIn_1()));
+                                    builder: (context) => const SignIn_1()));
                           },
                           child: Text(
                             'créez en un',
-                            style: TextStyle(color: couleur.SecondaryColors),
+                            style: Fonts.regularSecondarySmall,
                           ),
                         ),
                       ],
                     )
-=======
-                    Text('vous n\'avez pas de compte ?'),
-                    TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'créez en un',
-                          style: TextStyle(color: couleur.SecondaryColors),
-                        ))
->>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
                   ],
                 ),
               )

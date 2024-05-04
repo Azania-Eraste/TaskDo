@@ -1,4 +1,5 @@
 import 'package:azaproject/Util/Colors.dart';
+import 'package:azaproject/Util/Fonts.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -19,28 +20,24 @@ class ProjectTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(24),
+      padding: EdgeInsets.all(15),
       child: Container(
-<<<<<<< HEAD
-        height: MediaQuery.of(context).size.height,
-=======
->>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
-        padding: EdgeInsets.only(left: 15, right: 15, top: 24, bottom: 24),
+        height: MediaQuery.of(context).size.height * 0.4,
+        padding: EdgeInsets.only(left: 15, right: 15, top: 7, bottom: 7),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [Text(sous_titre)],
+              children: [
+                Text(
+                  sous_titre,
+                  style: Fonts.regularSecondary,
+                )
+              ],
             ),
             Row(
               children: [
-                Text(
-                  Titre,
-                  style: TextStyle(
-                      color: couleur.SecondaryColors,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
-                ),
+                Text(Titre, style: Fonts.boldSecondaryMid),
               ],
             ),
             Row(
@@ -48,19 +45,14 @@ class ProjectTile extends StatelessWidget {
               children: [
                 Text(
                   date,
-                  style: TextStyle(color: couleur.SecondaryColors),
+                  style: Fonts.regularSecondary,
                 ),
                 SizedBox(
                   width: 10,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    lieux,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: couleur.SecondaryColors),
-                  ),
+                  child: Text(lieux, style: Fonts.regularSecondary),
                 )
               ],
             )

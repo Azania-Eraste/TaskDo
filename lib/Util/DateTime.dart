@@ -13,7 +13,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
     return AlertDialog(
       content: DatePickerDialog(
         firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(Duration(days: 1000)),
+        lastDate: DateTime.now().add(const Duration(days: 1000)),
       ),
     );
   }

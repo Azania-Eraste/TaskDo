@@ -1,4 +1,5 @@
-import 'package:azaproject/MainScreen/Calendar/CalendarAdd.dart';
+import 'package:azaproject/List/Task.dart';
+import 'package:azaproject/MainScreen/Calendar/calendarAdd.dart';
 import 'package:azaproject/MainScreen/Calendar/CalendarScreen.dart';
 import 'package:azaproject/MainScreen/Map/MapScreen.dart';
 import 'package:azaproject/MainScreen/Notes/NoteScreen.dart';
@@ -6,51 +7,90 @@ import 'package:azaproject/MainScreen/Notes/NotesAdd.dart';
 import 'package:azaproject/MainScreen/Projects/ProjectAdd.dart';
 import 'package:azaproject/MainScreen/Projects/ProjectScreen.dart';
 import 'package:azaproject/MainScreen/Tasks/TaskScreen.dart';
+import 'package:azaproject/Service/User.dart';
+
 import 'package:azaproject/Util/Colors.dart';
 import 'package:azaproject/Util/Dialog_Box.dart';
-
+import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/TextField.dart';
 import 'package:flutter/material.dart';
+
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MyPages extends StatefulWidget {
-  const MyPages({Key? key}) : super(key: key);
+  final int? indice;
+  static String formatSelected = 'Journalier';
+  static DateTime? rappelDate;
+  const MyPages({super.key, this.indice = -1});
 
   @override
   State<MyPages> createState() => _MyPagesState();
 }
 
 class _MyPagesState extends State<MyPages> {
-  late List<List<dynamic>> TaskList;
-  late List<List<dynamic>> NoteList;
-  late List<List<dynamic>> ProjectListAFaire;
-  late List<List<dynamic>> ProjectListStarted;
+  TextEditingController search = TextEditingController();
   TextEditingController controller = TextEditingController();
   MyColors couleur = MyColors();
-
-  late List<List<dynamic>> meetings;
+  late double paddingsearch = 0.0;
 
   //list des pages
   late List<Widget> pages;
 
   int _selectedIndex = 0;
-  void SaveNewTask() {
-    setState(() {
-      TaskList.add([controller.text, false, false]);
-      controller.clear();
-    });
-    TaskScreen.taskKey.currentState?.refreshTaskList();
-    Navigator.pop(context);
+  void ajoutTaches() {
+    String day = 'a';
+    String formattedDate = '';
+    if (MyPages.rappelDate != null) {
+      switch (MyPages.rappelDate!.weekday) {
+        case 1:
+          day = 'Lun.';
+          break;
+        case 2:
+          day = 'Mar.';
+          break;
+        case 3:
+          day = 'Mer.';
+          break;
+        case 4:
+          day = 'Jeu.';
+          break;
+        case 5:
+          day = 'Ven.';
+          break;
+        case 6:
+          day = 'Sam.';
+          break;
+        case 7:
+          day = 'Dim.';
+          break;
+      }
+      formattedDate =
+          "$day le ${MyPages.rappelDate!.day} à ${MyPages.rappelDate!.hour}h${MyPages.rappelDate!.minute}min";
+    }
+    String nom = controller.text;
+
+    if (controller.text.isNotEmpty) {
+      setState(() {
+        TaskList.add([nom, false, false, formattedDate]);
+      });
+    }
+    controller.clear();
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const MyPages(
+                  indice: 1,
+                )));
   }
 
-  void CreateNewTask() {
+  void creationTache() {
     showDialog(
         context: context,
         builder: (context) {
           return BoiteDialogue(
             controller: controller,
-            OnSave: SaveNewTask,
-            OnCancel: () {
+            onSave: ajoutTaches,
+            onCancel: () {
               Navigator.pop(context);
             },
           );
@@ -61,6 +101,29 @@ class _MyPagesState extends State<MyPages> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void onSearch(String searchText) {
+    switch (_selectedIndex) {
+      case 0:
+        break;
+      case 1:
+        setState(() {
+          TaskScreen.TaskFiltre = TaskList.where((element) {
+            String search = element[0];
+
+            return search.toLowerCase().contains(searchText.toLowerCase());
+          }).toList();
+        });
+
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+    }
   }
 
   Widget _buildFloatingActionButton() {
@@ -85,9 +148,9 @@ class _MyPagesState extends State<MyPages> {
         // Page Tâches
         return FloatingActionButton(
           backgroundColor: couleur.TertiaryColors,
-          onPressed: () {
+          onPressed: () async {
             // Logique pour la page Tâches
-            CreateNewTask();
+            creationTache();
           },
           child: Icon(
             Icons.add,
@@ -103,15 +166,10 @@ class _MyPagesState extends State<MyPages> {
         // Page Notes
         return FloatingActionButton(
           backgroundColor: couleur.TertiaryColors,
-          onPressed: () async {
+          onPressed: () {
             // Logique pour la page Notes
-            final result = await Navigator.push(
-                context, MaterialPageRoute(builder: (context) => NotesAdd()));
-            if (result != null) {
-              setState(() {
-                NoteList.add([result[0], result[1]]);
-              });
-            }
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const NotesAdd()));
           },
           child: Icon(
             Icons.add,
@@ -132,145 +190,202 @@ class _MyPagesState extends State<MyPages> {
   void initState() {
     super.initState();
 
-    //Initialiser lalist des taches
-    TaskList = [
-      ["Make tutorial", false, false],
-      ["AZA", false, false],
-      ["azania", false, false],
-    ];
-    //Initialiser la liste des notes
-    NoteList = [
-      ["Aza", "aza"],
-      ["Azania", "azania"]
-    ];
-    //Initialiser la liste des projets à faire
-    ProjectListAFaire = [
-      ['Flutter', 'Activité spé', 'IIT'],
-      ['Java', 'Cours', 'IIT'],
-      ['Python', 'TP', 'L3SI']
-    ];
-    //Initialiser la liste des projet commencer
-    ProjectListStarted = [
-      ['Revision', 'Cours'],
-      ['Apprentissage du dart', 'Activité spéciale'],
-      ['TaskDo', 'Projet']
-    ];
-    // Initialiser la liste meetings
-    meetings = [
-      [
-        'aza',
-        DateTime.now(),
-        DateTime.now().add(
-          Duration(hours: 2),
-        )
-      ]
-    ];
+    //Rechargement de la page
+    if (widget.indice! >= 0) {
+      setState(() {
+        _selectedIndex = widget.indice!;
+      });
+    }
+
+    paddingsearch = 260;
 
     // Initialiser pages après la création de TaskList
     pages = [
-      ProjectScreen(
-        ProjectListAFaire: ProjectListAFaire,
-        ProjectListStarted: ProjectListStarted,
-      ),
-      TaskScreen(
-        TaskList: TaskList,
-      ),
-      CalendarScreen(
-        formatedate: formatSelected,
-      ),
-      NotesScreen(
-        NoteList: NoteList,
-      ),
-      MapScreen(),
+      ProjectScreen(),
+      TaskScreen(),
+      const CalendarScreen(),
+      const NotesScreen(),
+      const MapScreen(),
     ];
   }
 
-  static const FormatCalendirer = <String>[
+  static const formatCalendirer = <String>[
     'Journalier',
     'Journalier(Timeline)',
     'Hebdomadaire(Timeline)',
     'Hebdomadaire',
     'Mensuel',
   ];
-  final List<DropdownMenuItem<String>> _dropDownMenuItems =
-      FormatCalendirer.map((String text) => DropdownMenuItem(
-            child: Text(text),
+  final List<DropdownMenuItem<String>> _dropDownMenuItems = formatCalendirer
+      .map((String text) => DropdownMenuItem(
             value: text,
-          )).toList();
-  String? formatSelected = 'Journalier';
+            child: Text(text),
+          ))
+      .toList();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
-      appBar: AppBar(
-        backgroundColor:
-            _selectedIndex != 2 ? couleur.Screen : couleur.TertiaryColors,
-        title: _selectedIndex != 2
-            ? Container(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                child: MyTextField(
-                  Radius: 40,
-                  text: 'Rechercher',
-                  icon: Icons.search,
-                  Iconsize: 24,
-                  fillcolor: couleur.primarycolors,
-                  PasswordChar: false,
-                ))
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    onPressed: () async {
-                      // ignore: unused_local_variable
-                      final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CalendarAdd()));
-                    },
-                    icon: Icon(
-                      Icons.add,
-                      color: couleur.SecondaryColors,
-                    ),
+      extendBody: false,
+      drawer: Drawer(
+        child: Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 0.4,
+              height: MediaQuery.of(context).size.height * 0.3,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: couleur.SecondaryColors),
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    User.name,
+                    style: Fonts.boldSecondaryMid,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 2, right: 2),
-                    child: DropdownButton(
-                      items: this._dropDownMenuItems,
-                      onChanged: (String? newValue) {
-                        if (newValue != null) {
-                          setState(() {
-                            formatSelected = newValue;
-                          });
-                        }
-                      },
-                      hint: Icon(
-                        Icons.calendar_month,
-                        color: couleur.SecondaryColors,
-                      ),
-                    ),
-                  )
+                ),
+              ],
+            ),
+            const Divider(
+              indent: 15,
+              endIndent: 15,
+            ),
+            ListTile(
+              title: Row(
+                children: [
+                  Text(
+                    'Compte',
+                    style: Fonts.boldSecondary,
+                  ),
                 ],
               ),
+              onTap: () {
+                Navigator.pushNamed(context, '/profile');
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Confidentialité',
+                style: Fonts.boldSecondary,
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text(
+                'Paramètre',
+                style: Fonts.boldSecondary,
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text(
+                'Aide et bug',
+                style: Fonts.boldSecondary,
+              ),
+              onTap: () {},
+            ),
+          ],
+        ),
       ),
+      appBar: _selectedIndex == 4
+          ? null
+          : AppBar(
+              primary: true,
+              automaticallyImplyLeading: false,
+              backgroundColor: _selectedIndex != 2
+                  ? couleur.Screen
+                  : couleur.SecondaryColors,
+              title: _selectedIndex != 2
+                  ? SafeArea(
+                      child: Row(
+                      children: [
+                        const DrawerButton(
+                          style: ButtonStyle(
+                              animationDuration: Duration(milliseconds: 500),
+                              iconColor: MaterialStatePropertyAll(
+                                  Color.fromARGB(255, 06, 79, 96))),
+                        ),
+                        Expanded(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 5,
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                            child: MyTextField(
+                              HintStyle: Fonts.regularSecondary,
+                              controller: search,
+                              onChanged: onSearch,
+                              Radius: 40,
+                              text: 'Rechercher',
+                              style: Fonts.regularBlack,
+                              suffixicon: Icons.search,
+                              suffixIconsize: 24,
+                              fillcolor: couleur.primarycolors,
+                              PasswordChar: false,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ))
+                  : SafeArea(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () async {
+                              // ignore: unused_local_variable
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CalendarAdd()));
+                            },
+                            icon: Icon(
+                              Icons.add,
+                              color: couleur.TertiaryColors,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 2, right: 2),
+                            child: DropdownButton(
+                              items: _dropDownMenuItems,
+                              onChanged: (String? newValue) {
+                                if (newValue != null) {
+                                  setState(() {
+                                    MyPages.formatSelected = newValue;
+                                  });
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const MyPages(
+                                                indice: 2,
+                                              )));
+                                }
+                              },
+                              icon: Icon(
+                                Icons.calendar_month,
+                                color: couleur.TertiaryColors,
+                              ),
+                              elevation: 0,
+                            ),
+                          )
+                        ],
+                      ),
+                    )),
       backgroundColor: couleur.Screen,
-<<<<<<< HEAD
-      body: Expanded(child: pages[_selectedIndex]),
-=======
       body: pages[_selectedIndex],
->>>>>>> 46e500b51853427acc9393b59bfdf759e6dc733a
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: couleur.SecondaryColors,
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             vertical: 15,
             horizontal: 15,
           ),
           child: GNav(
+            selectedIndex: _selectedIndex,
             iconSize: 30,
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             tabBorderRadius: 20,
             tabBackgroundColor: couleur.TertiaryColors,
             onTabChange: (index) => _navigationBar(index),
@@ -292,7 +407,7 @@ class _MyPagesState extends State<MyPages> {
                 text: 'Calendrier',
               ),
               GButton(
-                icon: Icons.note,
+                icon: Icons.note_outlined,
                 text: 'Notes',
               ),
               GButton(

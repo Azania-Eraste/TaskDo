@@ -1,5 +1,6 @@
 import 'package:azaproject/MainScreen/SigninAndLogIn/SignIn3.dart';
 import 'package:azaproject/Util/CalendarState.dart';
+import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/MyBottom.dart';
 import 'package:azaproject/Util/TextField.dart';
 import 'package:flutter/material.dart';
@@ -14,22 +15,15 @@ class SignIn_2 extends StatefulWidget {
 class _SignIn_2State extends State<SignIn_2> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController nom_d_utilisateur_Controlleur =
-        new TextEditingController();
-    TextEditingController MotDePasseControlleur = new TextEditingController();
-    TextEditingController ConfMotDePasseControlleur =
-        new TextEditingController();
+    TextEditingController nom_d_utilisateur_controlleur =
+        TextEditingController();
+    TextEditingController MotDePasseControlleur = TextEditingController();
+    TextEditingController ConfMotDePasseControlleur = TextEditingController();
     return Scaffold(
       backgroundColor: couleur.Screen,
       appBar: AppBar(
         title: Center(
-          child: Text(
-            'Créer un compte',
-            style: TextStyle(
-                color: couleur.SecondaryColors,
-                fontSize: 35,
-                fontWeight: FontWeight.bold),
-          ),
+          child: Text('Créer un compte', style: Fonts.boldSecondaryMid),
         ),
       ),
       body: SingleChildScrollView(
@@ -42,10 +36,12 @@ class _SignIn_2State extends State<SignIn_2> {
                   padding: const EdgeInsets.only(top: 30.0, bottom: 20),
                   child: Form(
                       child: MyTextField(
+                    style: Fonts.boldBlack,
                     fillcolor: Colors.transparent,
                     Radius: 5,
+                    HintStyle: Fonts.regularHint,
                     text: 'Nom d\' utilisateur',
-                    controller: nom_d_utilisateur_Controlleur,
+                    controller: nom_d_utilisateur_controlleur,
                     PasswordChar: false,
                   )),
                 ),
@@ -53,8 +49,10 @@ class _SignIn_2State extends State<SignIn_2> {
                   padding: const EdgeInsets.only(top: 30.0, bottom: 20),
                   child: Form(
                       child: MyTextField(
+                    style: Fonts.boldBlack,
                     fillcolor: Colors.transparent,
                     Radius: 5,
+                    HintStyle: Fonts.regularHint,
                     text: 'Mot de passe',
                     controller: MotDePasseControlleur,
                     PasswordChar: false,
@@ -64,8 +62,10 @@ class _SignIn_2State extends State<SignIn_2> {
                   padding: const EdgeInsets.only(top: 30.0, bottom: 20),
                   child: Form(
                       child: MyTextField(
+                    style: Fonts.boldBlack,
                     fillcolor: Colors.transparent,
                     Radius: 5,
+                    HintStyle: Fonts.regularHint,
                     text: 'Confirmer Mot de passe',
                     controller: ConfMotDePasseControlleur,
                     PasswordChar: false,
@@ -73,32 +73,30 @@ class _SignIn_2State extends State<SignIn_2> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(30.0),
-                  child: Container(
+                  child: SizedBox(
                       width: 360,
-                      height: 50,
+                      height: 60,
                       child: MyBottom(
-                        text: 'Contunier',
-                        OnPressed: () {
-                          if (nom_d_utilisateur_Controlleur.text.isNotEmpty &&
-                              MotDePasseControlleur.text.isNotEmpty &&
-                              ConfMotDePasseControlleur.text ==
-                                  MotDePasseControlleur.text) {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignIn_3()));
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Champ non rempli'),
-                                duration: Duration(seconds: 3),
-                              ),
-                            );
-                          }
-                        },
-                        textStyle: TextStyle(
-                            color: couleur.primarycolors, fontSize: 26),
-                      )),
+                          text: 'Continuer',
+                          onPressed: () {
+                            if (nom_d_utilisateur_controlleur.text.isNotEmpty &&
+                                MotDePasseControlleur.text.isNotEmpty &&
+                                ConfMotDePasseControlleur.text ==
+                                    MotDePasseControlleur.text) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const SignIn_3()));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Champ non rempli'),
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
+                            }
+                          },
+                          textStyle: Fonts.boldPrimaryMid)),
                 )
               ],
             ),

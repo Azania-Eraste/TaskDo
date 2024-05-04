@@ -1,4 +1,9 @@
+import "package:azaproject/List/Project.dart";
+import "package:azaproject/MainScreen/pages.dart";
+import "package:azaproject/Service/User.dart";
 import "package:azaproject/Util/CalendarState.dart";
+import "package:azaproject/Util/Dialog_Box.dart";
+import "package:azaproject/Util/Fonts.dart";
 import "package:flutter/material.dart";
 
 class ProjectAdd extends StatefulWidget {
@@ -9,124 +14,169 @@ class ProjectAdd extends StatefulWidget {
 }
 
 class _ProjectAddState extends State<ProjectAdd> {
-  TextEditingController Titrecontrolleur = new TextEditingController();
-  TextEditingController Contenucontrolleur = new TextEditingController();
-  String nom = 'Aza';
+  TextEditingController titreControlleur = TextEditingController();
+  TextEditingController contenucontrolleur = TextEditingController();
+  TextEditingController controller = TextEditingController();
+
+  void saveNewTask() {
+    if (controller.text.isNotEmpty) {
+      setState(() {
+        ProjectTask.add([
+          [controller.text, false, false]
+        ]);
+      });
+    }
+    controller.clear();
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const MyPages(
+                  indice: 1,
+                )));
+  }
+
+  void createNewTask() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return BoiteDialogue(
+            controller: controller,
+            onSave: saveNewTask,
+            onCancel: () {
+              Navigator.pop(context);
+            },
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
-      children: [
-        Column(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leadingWidth: 50,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: couleur.SecondaryColors,
+            )),
+        title: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 2.0),
-              child: Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: couleur.SecondaryColors,
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 125.0),
-                    child: Text(
-                      'Créer',
-                      style: TextStyle(
-                          color: couleur.SecondaryColors,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-              child: TextField(
-                style: TextStyle(color: Colors.black87, fontSize: 40),
-                decoration: InputDecoration(
-                  hintText: 'Titre',
-                  hintStyle:
-                      TextStyle(color: couleur.SecondaryColors, fontSize: 40),
-                  border: InputBorder.none,
-                ),
-                maxLines: 2,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                maxLines: 10,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Description',
-                    hintStyle: TextStyle(
-                      color: couleur.SecondaryColors,
-                      fontSize: 25,
-                    )),
-                style: TextStyle(color: Colors.black87, fontSize: 25),
-              ),
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Membre : ',
-                        style: TextStyle(
-                            color: couleur.SecondaryColors,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Créateur : ',
-                        style: TextStyle(
-                            color: couleur.SecondaryColors, fontSize: 15),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: Colors.black,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text('$nom'),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
+              padding: const EdgeInsets.only(left: 100.0),
+              child: Text('Créer', style: Fonts.boldSecondaryMid),
             )
           ],
         ),
-      ],
-    ));
+      ),
+      body: ListView(
+        children: [
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                child: TextField(
+                  style: Fonts.boldBlack,
+                  decoration: InputDecoration(
+                    hintText: 'Titre',
+                    hintStyle: Fonts.boldSecondaryMid,
+                    border: InputBorder.none,
+                  ),
+                  maxLines: 2,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextField(
+                  maxLines: 10,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Description',
+                      hintStyle: Fonts.boldSecondary),
+                  style: Fonts.boldBlack,
+                ),
+              ),
+              ListTile(
+                title: Row(
+                  children: [
+                    Text('Membre : ', style: Fonts.boldSecondary),
+                  ],
+                ),
+                trailing: const Icon(Icons.add),
+                onTap: () {},
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 19.0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Colors.black,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        User.name,
+                        style: Fonts.regularBlackMId,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, left: 15),
+                    child: Row(
+                      children: [Text('Lieu', style: Fonts.boldSecondary)],
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      '(Aucun lieu)',
+                      style: Fonts.regularHintMid,
+                    ),
+                    trailing: const Icon(Icons.map),
+                    onTap: () {},
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, left: 10),
+                    child: Row(
+                      children: [Text('Tâches', style: Fonts.boldSecondary)],
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      '(Aucune tâche)',
+                      style: Fonts.regularHintMid,
+                    ),
+                    trailing: const Icon(Icons.task),
+                    onTap: () {
+                      createNewTask();
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: couleur.TertiaryColors,
+        onPressed: () {},
+        child: Icon(
+          Icons.save_alt,
+          color: couleur.SecondaryColors,
+          size: 40,
+        ),
+      ),
+    );
   }
 }

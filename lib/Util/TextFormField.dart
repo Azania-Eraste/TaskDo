@@ -1,3 +1,4 @@
+import 'package:azaproject/Util/CalendarState.dart';
 import 'package:azaproject/Util/Fonts.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class MytextFormField extends StatelessWidget {
           hintText: HintText,
           hintStyle: hintStyle,
           border: OutlineInputBorder(
-              borderSide: BorderSide(),
+              borderSide: BorderSide(color: couleur.TertiaryColors),
               borderRadius: BorderRadius.circular(radius))),
       keyboardType: inputType,
       validator: validator,

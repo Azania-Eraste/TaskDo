@@ -16,11 +16,12 @@ class CalendarAdd extends StatefulWidget {
 class _CalendarAddState extends State<CalendarAdd> {
   TextEditingController nomEvent = TextEditingController();
   TextEditingController DescripEevnt = TextEditingController();
-  List<Appointment> meetings = getAppointents();
+  List<Appointment> meetings = MeetingData.getAppointents();
   late bool ValueDay;
   late bool ValueRappel;
   DateTime selectedDateEnd = DateTime.now().add(const Duration(hours: 1));
   DateTime selectedDateStart = DateTime.now();
+  MeetingData _dbMeeting = MeetingData();
   @override
   void initState() {
     super.initState();
@@ -368,6 +369,7 @@ class _CalendarAddState extends State<CalendarAdd> {
             subject: nomEvent.text,
             notes: DescripEevnt.text,
           ));
+          _dbMeeting.modifiactionList();
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(

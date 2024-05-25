@@ -5,11 +5,14 @@ import 'package:azaproject/Util/Colors.dart';
 import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/MeetingState.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 MyColors couleur = MyColors();
 
 class Mycalendar extends StatefulWidget {
+  //Reference de la base de donnée
+  static final box = Hive.box('TaskDo');
   const Mycalendar({
     Key? key,
   }) : super(key: key);
@@ -41,6 +44,18 @@ class _MycalendarState extends State<Mycalendar> {
 
   CalendarView view = CalendarView.month;
 
+final  MeetingData _dbMeeting = MeetingData();
+
+  @override
+  void initState() {
+    super.initState();
+    if (Mycalendar.box.get('MeetingList') == null) {
+      _dbMeeting.initData();
+    } else {
+      _dbMeeting.chargementData();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SfCalendar(
@@ -57,22 +72,7 @@ class _MycalendarState extends State<Mycalendar> {
       viewHeaderHeight: -1, showTodayButton: true,
       todayTextStyle: Fonts.boldPrimary,
       todayHighlightColor: couleur.SecondaryColors,
-      dataSource: MeetingDataSource(getAppointents()),
+      dataSource: MeetingDataSource(MeetingData.getAppointents()),
     );
   }
 }
-
-// List<Appointment> getAppointents() {
-//   final DateTime today = DateTime.now();
-//   final startTime = DateTime(today.year, today.month, today.day, 9, 0, 0);
-//   final endTime = startTime.add(const Duration(hours: 2));
-
-//   meeting.add(Appointment(
-//       startTime: startTime,
-//       endTime: endTime,
-//       subject: 'Aza',
-//       color: couleur.SecondaryColors,
-//       recurrenceRule: 'FREQ=DAILY;COUNT=5',
-//       isAllDay: true));
-//   return meeting;
-// }

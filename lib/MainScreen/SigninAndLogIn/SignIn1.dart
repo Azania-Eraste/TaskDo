@@ -1,4 +1,5 @@
 import 'package:azaproject/MainScreen/SigninAndLogIn/SignIn2.dart';
+import 'package:azaproject/Service/user.dart';
 import 'package:azaproject/Util/CalendarState.dart';
 import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/MyBottom.dart';
@@ -123,6 +124,11 @@ class _SignIn_1State extends State<SignIn_1> {
                             if (nomControlleur.text.isNotEmpty &&
                                 prenomControlleur.text.isNotEmpty &&
                                 _selectedGender != '') {
+                              setState(() {
+                                User.name = nomControlleur.text;
+                                User.surname = prenomControlleur.text;
+                                User.gender = _selectedGender;
+                              });
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

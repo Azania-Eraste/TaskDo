@@ -8,12 +8,14 @@ class MyIcon extends StatelessWidget {
   final IconData icontrue;
   Function()? onchanged;
   final bool value;
+  final bool isDone;
   MyIcon(
       {super.key,
       required this.iconFalse,
       required this.icontrue,
       required this.onchanged,
-      required this.value});
+      required this.value,
+      required this.isDone});
   final MyColors couleur = MyColors();
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,11 @@ class MyIcon extends StatelessWidget {
       child: Icon(
         value ? icontrue : iconFalse,
         size: 24,
-        color: value ? couleur.TertiaryColors : couleur.SecondaryColors,
+        color: isDone
+            ? couleur.HintText
+            : value
+                ? couleur.TertiaryColors
+                : couleur.SecondaryColors,
       ),
     );
   }

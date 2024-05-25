@@ -1,4 +1,5 @@
 import 'package:azaproject/MainScreen/SigninAndLogIn/SignIn3.dart';
+import 'package:azaproject/Service/user.dart';
 import 'package:azaproject/Util/CalendarState.dart';
 import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/MyBottom.dart';
@@ -55,7 +56,7 @@ class _SignIn_2State extends State<SignIn_2> {
                     HintStyle: Fonts.regularHint,
                     text: 'Mot de passe',
                     controller: MotDePasseControlleur,
-                    PasswordChar: false,
+                    PasswordChar: true,
                   )),
                 ),
                 Padding(
@@ -68,7 +69,7 @@ class _SignIn_2State extends State<SignIn_2> {
                     HintStyle: Fonts.regularHint,
                     text: 'Confirmer Mot de passe',
                     controller: ConfMotDePasseControlleur,
-                    PasswordChar: false,
+                    PasswordChar: true,
                   )),
                 ),
                 Padding(
@@ -80,13 +81,27 @@ class _SignIn_2State extends State<SignIn_2> {
                           text: 'Continuer',
                           onPressed: () {
                             if (nom_d_utilisateur_controlleur.text.isNotEmpty &&
-                                MotDePasseControlleur.text.isNotEmpty &&
-                                ConfMotDePasseControlleur.text ==
-                                    MotDePasseControlleur.text) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const SignIn_3()));
+                                MotDePasseControlleur.text.isNotEmpty) {
+                              if (ConfMotDePasseControlleur.text ==
+                                  MotDePasseControlleur.text) {
+                                setState(() {
+                                  User.userName =
+                                      nom_d_utilisateur_controlleur.text;
+                                  User.password = MotDePasseControlleur.text;
+                                });
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignIn_3()));
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Mot de passe différent'),
+                                    duration: Duration(seconds: 3),
+                                  ),
+                                );
+                              }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

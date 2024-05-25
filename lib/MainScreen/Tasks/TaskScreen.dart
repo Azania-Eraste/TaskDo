@@ -8,8 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class TaskScreen extends StatefulWidget {
-  static GlobalKey<_TaskScreenState> taskKey = GlobalKey<_TaskScreenState>();
-  static List<List<dynamic>> TaskFiltre = [];
+  static List TaskFiltre = [];
+  //Reference de la base de donnée
+  static final box = Hive.box('TaskDo');
   TaskScreen({
     super.key,
   });
@@ -22,17 +23,21 @@ class _TaskScreenState extends State<TaskScreen> {
   MyColors couleur = new MyColors();
   int taches = 0;
   TextEditingController controller = new TextEditingController();
-
-  //Reference de la base de donnée
-  final _box = Hive.box('TaskDo');
+  Taskdata db = Taskdata();
 
   //Liste des taches
 
   @override
   void initState() {
     super.initState();
-    TaskScreen.TaskFiltre = TaskList;
-    _taches(TaskList);
+    //A la prémière ouverture de l app
+    if (TaskScreen.box.get('Tasklist') == null) {
+      db.InitData();
+    } else {
+      db.chargementData();
+    }
+    TaskScreen.TaskFiltre = Taskdata.TaskList;
+    _taches(Taskdata.TaskList);
   }
 
   String modifyDate(int index, String formattedDate) {
@@ -87,6 +92,7 @@ class _TaskScreenState extends State<TaskScreen> {
           modifyDate(index, formattedDate)
         ]);
       }
+      db.modifiactionList();
       BoiteDialogue.contenu.clear();
     });
     Navigator.pop(context);
@@ -101,24 +107,27 @@ class _TaskScreenState extends State<TaskScreen> {
     setState(() {
       TaskScreen.TaskFiltre[index][1] = !TaskScreen.TaskFiltre[index][1];
     });
+    db.modifiactionList();
   }
 
   _taches(List tachelist) {
-    taches = TaskList.length;
+    taches = Taskdata.TaskList.length;
   }
 
   void BookmarkTap(int index) {
     setState(() {
       TaskScreen.TaskFiltre[index][2] = !TaskScreen.TaskFiltre[index][2];
     });
+    db.modifiactionList();
   }
 
   //supprimer la tâche
   void DeleteTask(int index) {
     setState(() {
       TaskScreen.TaskFiltre.removeAt(index);
-      _taches(TaskList);
+      _taches(Taskdata.TaskList);
     });
+    db.modifiactionList();
   }
 
   void refresh() {

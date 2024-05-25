@@ -93,8 +93,10 @@ class _LogInScreenState extends State<LogInScreen> {
                         onPressed: () {
                           if (nomControlleur.text.isNotEmpty &&
                               passwordControlleur.text.isNotEmpty) {
-                            User.name = nomControlleur.text;
-                            User.password = passwordControlleur.text;
+                            setState(() {
+                              User.name = nomControlleur.text;
+                              User.password = passwordControlleur.text;
+                            });
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

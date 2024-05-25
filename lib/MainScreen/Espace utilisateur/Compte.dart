@@ -1,3 +1,4 @@
+import 'package:azaproject/Service/User.dart';
 import 'package:azaproject/Util/CalendarState.dart';
 import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/TextFormField.dart';
@@ -17,6 +18,12 @@ class _EspaceCompteState extends State<EspaceCompte> {
   TextEditingController emailController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    nomController.text = User.name;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: couleur.Screen,
@@ -32,6 +39,7 @@ class _EspaceCompteState extends State<EspaceCompte> {
               Icons.arrow_back,
             ),
           ),
+          backgroundColor: couleur.Screen,
           title: Text(
             'Compte',
             style: Fonts.boldSecondary,

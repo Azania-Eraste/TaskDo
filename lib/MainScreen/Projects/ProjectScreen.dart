@@ -4,6 +4,7 @@ import "package:azaproject/Util/Colors.dart";
 import "package:azaproject/Util/Fonts.dart";
 import "package:azaproject/Util/ProjectStarted.dart";
 import "package:azaproject/Util/ProjectToDo_tile.dart";
+import "package:azaproject/Util/Search.dart";
 import "package:flutter/material.dart";
 
 class ProjectScreen extends StatefulWidget {
@@ -273,7 +274,15 @@ class _ProjectScreenState extends State<ProjectScreen> {
                       child: Center(
                         child: Text('$projetAFaire', style: Fonts.boldPrimary),
                       ),
-                    )
+                    ),
+                    const Expanded(child: SizedBox()),
+                    IconButton(
+                        onPressed: () {
+                          showSearch(
+                              context: context,
+                              delegate: Search(ProjectListAFaire));
+                        },
+                        icon: const Icon(Icons.search))
                   ],
                 )
               ],
@@ -295,11 +304,11 @@ class _ProjectScreenState extends State<ProjectScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0),
+            padding: const EdgeInsets.only(top: 5.0),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0, top: 5, bottom: 5),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Row(
                     children: [
                       Padding(
@@ -316,6 +325,14 @@ class _ProjectScreenState extends State<ProjectScreen> {
                               Text('$projetStarted', style: Fonts.boldPrimary),
                         ),
                       ),
+                      const Expanded(child: SizedBox()),
+                      IconButton(
+                          onPressed: () {
+                            showSearch(
+                                context: context,
+                                delegate: Search(ProjectListStarted));
+                          },
+                          icon: const Icon(Icons.search))
                     ],
                   ),
                 ),
@@ -334,9 +351,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
               );
             },
           )),
-          const SizedBox(
-            height: 200,
-          )
+          const Expanded(child: SizedBox())
         ],
       ),
     ));

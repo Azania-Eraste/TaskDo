@@ -8,13 +8,11 @@ import 'package:azaproject/MainScreen/Projects/ProjectAdd.dart';
 import 'package:azaproject/MainScreen/Projects/ProjectScreen.dart';
 import 'package:azaproject/MainScreen/Tasks/TaskScreen.dart';
 import 'package:azaproject/Service/User.dart';
-
 import 'package:azaproject/Util/Colors.dart';
 import 'package:azaproject/Util/Dialog_Box.dart';
 import 'package:azaproject/Util/Fonts.dart';
-import 'package:azaproject/Util/TextField.dart';
+import 'package:azaproject/Util/Search.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MyPages extends StatefulWidget {
@@ -32,9 +30,16 @@ class _MyPagesState extends State<MyPages> {
   TextEditingController controller = TextEditingController();
   MyColors couleur = MyColors();
   late double paddingsearch = 0.0;
-
+  Taskdata db = Taskdata();
   //list des pages
   late List<Widget> pages;
+
+  Search ListSearch() {
+    if (_selectedIndex == 3) {
+      return Search(NotesScreen.NotesFiltre);
+    }
+    return Search(TaskScreen.TaskFiltre);
+  }
 
   int _selectedIndex = 0;
   void ajoutTaches() {
@@ -71,9 +76,10 @@ class _MyPagesState extends State<MyPages> {
 
     if (controller.text.isNotEmpty) {
       setState(() {
-        TaskList.add([nom, false, false, formattedDate]);
+        Taskdata.TaskList.add([nom, false, false, formattedDate]);
       });
     }
+    db.modifiactionList();
     controller.clear();
     Navigator.pushReplacement(
         context,
@@ -101,29 +107,6 @@ class _MyPagesState extends State<MyPages> {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  void onSearch(String searchText) {
-    switch (_selectedIndex) {
-      case 0:
-        break;
-      case 1:
-        setState(() {
-          TaskScreen.TaskFiltre = TaskList.where((element) {
-            String search = element[0];
-
-            return search.toLowerCase().contains(searchText.toLowerCase());
-          }).toList();
-        });
-
-        break;
-      case 2:
-        break;
-      case 3:
-        break;
-      case 4:
-        break;
-    }
   }
 
   Widget _buildFloatingActionButton() {
@@ -201,7 +184,7 @@ class _MyPagesState extends State<MyPages> {
 
     // Initialiser pages après la création de TaskList
     pages = [
-      ProjectScreen(),
+      const ProjectScreen(),
       TaskScreen(),
       const CalendarScreen(),
       const NotesScreen(),
@@ -235,6 +218,11 @@ class _MyPagesState extends State<MyPages> {
               height: MediaQuery.of(context).size.height * 0.3,
               decoration: BoxDecoration(
                   shape: BoxShape.circle, color: couleur.SecondaryColors),
+              child: Icon(
+                Icons.add_a_photo_outlined,
+                color: couleur.TertiaryColors,
+                size: 30,
+              ),
             ),
             Row(
               children: [
@@ -276,7 +264,9 @@ class _MyPagesState extends State<MyPages> {
                 'Paramètre',
                 style: Fonts.boldSecondary,
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/paramètre');
+              },
             ),
             ListTile(
               title: Text(
@@ -285,6 +275,16 @@ class _MyPagesState extends State<MyPages> {
               ),
               onTap: () {},
             ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.2,
+            ),
+            const Divider(),
+            ListTile(
+              title: Text(
+                'Invitez vos ami(e)s',
+                style: Fonts.boldSecondary,
+              ),
+            )
           ],
         ),
       ),
@@ -296,33 +296,27 @@ class _MyPagesState extends State<MyPages> {
               backgroundColor: _selectedIndex != 2
                   ? couleur.Screen
                   : couleur.SecondaryColors,
+              actions: [
+                _selectedIndex != 2
+                    ? _selectedIndex != 0
+                        ? IconButton(
+                            onPressed: () {
+                              showSearch(
+                                  context: context, delegate: ListSearch());
+                            },
+                            icon: const Icon(Icons.search))
+                        : Container()
+                    : Container()
+              ],
               title: _selectedIndex != 2
-                  ? SafeArea(
+                  ? const SafeArea(
                       child: Row(
                       children: [
-                        const DrawerButton(
+                        DrawerButton(
                           style: ButtonStyle(
                               animationDuration: Duration(milliseconds: 500),
                               iconColor: MaterialStatePropertyAll(
                                   Color.fromARGB(255, 06, 79, 96))),
-                        ),
-                        Expanded(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 5,
-                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                            child: MyTextField(
-                              HintStyle: Fonts.regularSecondary,
-                              controller: search,
-                              onChanged: onSearch,
-                              Radius: 40,
-                              text: 'Rechercher',
-                              style: Fonts.regularBlack,
-                              suffixicon: Icons.search,
-                              suffixIconsize: 24,
-                              fillcolor: couleur.primarycolors,
-                              PasswordChar: false,
-                            ),
-                          ),
                         ),
                       ],
                     ))
@@ -383,6 +377,7 @@ class _MyPagesState extends State<MyPages> {
             horizontal: 15,
           ),
           child: GNav(
+            textStyle: Fonts.regularPrimary,
             selectedIndex: _selectedIndex,
             iconSize: 30,
             padding: const EdgeInsets.all(16),

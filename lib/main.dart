@@ -1,15 +1,14 @@
 import 'package:azaproject/MainScreen/Acceuil/Branding.dart';
 import 'package:azaproject/MainScreen/Espace%20utilisateur/Compte.dart';
+import 'package:azaproject/MainScreen/Espace%20utilisateur/param%C3%A8tre.dart';
 import 'package:azaproject/MainScreen/ForgotPassword/CodeVerification.dart';
 import 'package:azaproject/MainScreen/ForgotPassword/EmailAuthentification.dart';
 import 'package:azaproject/MainScreen/ForgotPassword/NumberAuthentification.dart';
-
 import 'package:azaproject/MainScreen/pages.dart';
 import 'package:azaproject/MainScreen/SigninAndLogIn/SignIn1.dart';
 import 'package:azaproject/MainScreen/SigninAndLogIn/SignIn2.dart';
 import 'package:azaproject/MainScreen/SigninAndLogIn/SignIn3.dart';
 import 'package:flutter/material.dart';
-
 import 'package:hive_flutter/adapters.dart';
 
 void main() async {
@@ -39,6 +38,7 @@ class MyApp extends StatelessWidget {
           '/SignIn2': (context) => const SignIn_2(),
           '/SignIn3': (context) => const SignIn_3(),
           '/profile': (context) => const EspaceCompte(),
+          '/paramètre': (context) => const parametre(),
         },
         debugShowCheckedModeBanner: false,
         home: const BrandingPage(),

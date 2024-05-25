@@ -15,7 +15,6 @@ class TaskTile extends StatelessWidget {
   Function(BuildContext)? deleteTask;
   final List task;
   final int index;
-
   final VoidCallback OnModify;
   final TextEditingController controller;
   TaskTile({
@@ -32,7 +31,7 @@ class TaskTile extends StatelessWidget {
     required this.controller,
     required this.OnModify,
   });
-  MyColors couleur = new MyColors();
+  MyColors couleur =  MyColors();
   int getIndex() {
     return index;
   }
@@ -42,9 +41,9 @@ class TaskTile extends StatelessWidget {
     //date de création
 
     return Padding(
-      padding: EdgeInsets.only(top: 24, left: 15, right: 15),
+      padding: const EdgeInsets.only(top: 24, left: 15, right: 15),
       child: Slidable(
-        startActionPane: ActionPane(motion: StretchMotion(), children: [
+        startActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: (context) {
               showDialog(
@@ -66,7 +65,7 @@ class TaskTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           )
         ]),
-        endActionPane: ActionPane(motion: StretchMotion(), children: [
+        endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: deleteTask,
             icon: Icons.delete,
@@ -81,16 +80,22 @@ class TaskTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 side: BorderSide(
                   strokeAlign: BorderSide.strokeAlignCenter,
-                  color: couleur.SecondaryColors,
+                  color: isDone
+                      ? couleur.HintText
+                      : check
+                          ? couleur.TertiaryColors
+                          : couleur.SecondaryColors,
                   width: 2,
                 )),
             child: ListTile(
               title: Text(
                 TacheTitre,
                 style: TextStyle(
-                    color: check
-                        ? couleur.TertiaryColors
-                        : couleur.SecondaryColors,
+                    color: isDone
+                        ? couleur.HintText
+                        : check
+                            ? couleur.TertiaryColors
+                            : couleur.SecondaryColors,
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                     decoration: isDone
@@ -99,26 +104,38 @@ class TaskTile extends StatelessWidget {
                     fontFamily: 'DMSans'),
               ),
               leading: Checkbox(
-                focusColor:
-                    check ? couleur.TertiaryColors : couleur.SecondaryColors,
-                checkColor:
-                    check ? couleur.SecondaryColors : couleur.primarycolors,
+                focusColor: isDone
+                    ? couleur.HintText
+                    : check
+                        ? couleur.TertiaryColors
+                        : couleur.SecondaryColors,
+                checkColor: isDone
+                    ? couleur.HintText
+                    : check
+                        ? couleur.TertiaryColors
+                        : couleur.SecondaryColors,
                 value: isDone,
                 onChanged: OnChanged,
-                activeColor:
-                    check ? couleur.TertiaryColors : couleur.SecondaryColors,
+                activeColor: isDone
+                    ? couleur.HintText
+                    : check
+                        ? couleur.TertiaryColors
+                        : couleur.SecondaryColors,
               ),
               trailing: MyIcon(
                 iconFalse: Icons.bookmark_outline,
                 icontrue: Icons.bookmark,
                 onchanged: OnPressed,
                 value: check,
+                isDone: isDone,
               ),
               subtitle: Text(date,
                   style: TextStyle(
-                      color: check
-                          ? couleur.TertiaryColors
-                          : couleur.SecondaryColors,
+                      color: isDone
+                          ? couleur.HintText
+                          : check
+                              ? couleur.TertiaryColors
+                              : couleur.SecondaryColors,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'DMSans')),
             )),

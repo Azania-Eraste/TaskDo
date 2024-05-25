@@ -1,4 +1,5 @@
 import 'package:azaproject/MainScreen/pages.dart';
+import 'package:azaproject/Service/user.dart';
 import 'package:azaproject/Util/CalendarState.dart';
 import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/MyBottom.dart';
@@ -42,6 +43,7 @@ class _SignIn_3State extends State<SignIn_3> {
                       text: 'Date de naissance',
                       controller: date_de_naissance_Controlleur,
                       PasswordChar: false,
+                      keyboardType: TextInputType.datetime,
                     )),
                   ),
                   Padding(
@@ -55,6 +57,7 @@ class _SignIn_3State extends State<SignIn_3> {
                       text: 'Email',
                       controller: EmailControlleur,
                       PasswordChar: false,
+                      keyboardType: TextInputType.emailAddress,
                     )),
                   ),
                   Padding(
@@ -68,6 +71,7 @@ class _SignIn_3State extends State<SignIn_3> {
                       text: 'Numéro',
                       controller: NumControlleur,
                       PasswordChar: false,
+                      keyboardType: TextInputType.number,
                     )),
                   ),
                   Padding(
@@ -82,6 +86,12 @@ class _SignIn_3State extends State<SignIn_3> {
                                       .text.isNotEmpty &&
                                   EmailControlleur.text.isNotEmpty &&
                                   NumControlleur.text.isNotEmpty) {
+                                setState(() {
+                                  User.dateNaiss =
+                                      date_de_naissance_Controlleur.text;
+                                  User.email = EmailControlleur.text;
+                                  User.number = NumControlleur.text;
+                                });
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(

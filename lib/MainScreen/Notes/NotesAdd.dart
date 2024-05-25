@@ -1,9 +1,11 @@
 import 'package:azaproject/List/Note.dart';
+import 'package:azaproject/MainScreen/Notes/NoteScreen.dart';
 import 'package:azaproject/MainScreen/pages.dart';
 import 'package:azaproject/Util/CalendarState.dart';
 import 'package:azaproject/Util/Fonts.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class NotesAdd extends StatefulWidget {
   final List? notes;
@@ -18,6 +20,8 @@ class _NotesAddState extends State<NotesAdd> {
   TextEditingController Titrecontrolleur = TextEditingController();
   TextEditingController Contenucontrolleur = TextEditingController();
   FocusNode titleFocusNode = FocusNode();
+  NoteData _noteData = NoteData();
+  final _box = Hive.box('TaskDo');
 
   @override
   void initState() {
@@ -27,6 +31,11 @@ class _NotesAddState extends State<NotesAdd> {
           TextEditingController(text: widget.notes![widget.index!][0]);
       Contenucontrolleur =
           TextEditingController(text: widget.notes![widget.index!][1]);
+    }
+    if (_box.get('NoteList') == null) {
+      _noteData.initData();
+    } else {
+      _noteData.chargementData();
     }
   }
 
@@ -90,19 +99,23 @@ class _NotesAddState extends State<NotesAdd> {
                   IconButton(
                       onPressed: () {
                         if (widget.notes != null) {
-                          NoteList[widget.index!][0] = Titrecontrolleur.text;
-                          NoteList[widget.index!][1] = Contenucontrolleur.text;
-                          NoteList[widget.index!][2] = formattedDate;
+                          NotesScreen.NotesFiltre[widget.index!][0] =
+                              Titrecontrolleur.text;
+                          NotesScreen.NotesFiltre[widget.index!][1] =
+                              Contenucontrolleur.text;
+                          NotesScreen.NotesFiltre[widget.index!][2] =
+                              formattedDate;
                         } else {
                           if (Titrecontrolleur.text.isNotEmpty ||
                               Contenucontrolleur.text.isNotEmpty) {
-                            NoteList.add([
+                            NotesScreen.NotesFiltre.add([
                               Titrecontrolleur.text,
                               Contenucontrolleur.text,
                               formattedDate
                             ]);
                           }
                         }
+                        _noteData.modifiactionList();
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -166,83 +179,6 @@ class _NotesAddState extends State<NotesAdd> {
                 ],
               ),
             ),
-            hasFocus
-                ? Container(
-                    color: couleur.SecondaryColors,
-                    width: double.infinity,
-                    height: 60,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                          child: const SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: Icon(
-                              Icons.image,
-                              size: 40,
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          child: const Icon(
-                            Icons.text_decrease,
-                            size: 40,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              // Diminuez la taille de la police de la sélection dans le titre
-                              if (!Titrecontrolleur.selection.isCollapsed) {
-                                String selectedText = Titrecontrolleur.selection
-                                    .textInside(Titrecontrolleur.text);
-                              }
-                            });
-                          },
-                        ),
-                        GestureDetector(
-                          child: const Icon(
-                            Icons.text_increase,
-                            size: 40,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              // Augmentez la taille de la police de la sélection dans le titre
-                              if (!Titrecontrolleur.selection.isCollapsed) {
-                                String selectedText = Titrecontrolleur.selection
-                                    .textInside(Titrecontrolleur.text);
-                              } else if (!Contenucontrolleur
-                                  .selection.isCollapsed) {
-                                String selectedText = Contenucontrolleur
-                                    .selection
-                                    .textInside(Contenucontrolleur.text);
-                              }
-                            });
-                          },
-                        ),
-                        GestureDetector(
-                          child: const SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: Icon(
-                              Icons.text_format,
-                              size: 44,
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          child: const SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: Icon(
-                              Icons.format_color_text_rounded,
-                              size: 40,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : Container()
           ],
         ),
       ),

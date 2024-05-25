@@ -1,4 +1,3 @@
-import 'package:azaproject/MainScreen/Acceuil/Branding4.dart';
 import 'package:azaproject/MainScreen/SigninAndLogIn/LogIn.dart';
 import 'package:azaproject/Util/CalendarState.dart';
 import 'package:azaproject/Util/Fonts.dart';
@@ -78,7 +77,7 @@ class _BRanding3State extends State<BRanding3> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Branding4()));
+                                builder: (context) => const LogInScreen()));
                       },
                       child: const Text('Suivant'))
                 ],

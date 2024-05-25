@@ -3,8 +3,11 @@ import 'package:azaproject/Util/CalendarState.dart';
 import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/Notes_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class NotesScreen extends StatefulWidget {
+  static List NotesFiltre = [];
+  static final box = Hive.box('TaskDo');
   const NotesScreen({
     super.key,
   });
@@ -15,17 +18,27 @@ class NotesScreen extends StatefulWidget {
 
 class _NotesScreenState extends State<NotesScreen> {
   int notes = 0;
+  NoteData _noteData = NoteData();
+  //Reference de la base de donnée
+
   void verificatedeletedNote(int index) {
     setState(() {
-      NoteList.removeAt(index);
-      _notes(NoteList);
+      NotesScreen.NotesFiltre.removeAt(index);
+      _notes(NotesScreen.NotesFiltre);
     });
   }
 
   @override
   void initState() {
     super.initState();
-    _notes(NoteList);
+
+    if (NotesScreen.box.get('NoteList') == null) {
+      _noteData.initData();
+    } else {
+      _noteData.chargementData();
+    }
+    NotesScreen.NotesFiltre = NoteData.NoteList;
+    _notes(NotesScreen.NotesFiltre);
   }
 
   void _notes(List noteslist) {
@@ -33,7 +46,7 @@ class _NotesScreenState extends State<NotesScreen> {
   }
 
   void deleteNote(int index) {
-    List temp = NoteList[index];
+    List temp = NotesScreen.NotesFiltre[index];
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: couleur.SecondaryColors,
       content: Text(
@@ -44,8 +57,9 @@ class _NotesScreenState extends State<NotesScreen> {
           label: 'OUI', onPressed: () => verificatedeletedNote(index)),
     ));
     setState(() {
-      _notes(NoteList);
+      _notes(NotesScreen.NotesFiltre);
     });
+    _noteData.modifiactionList();
   }
 
   @override
@@ -77,15 +91,15 @@ class _NotesScreenState extends State<NotesScreen> {
         ),
         Expanded(
             child: ListView.builder(
-          itemCount: NoteList.length,
+          itemCount: NotesScreen.NotesFiltre.length,
           itemBuilder: (BuildContext context, int index) {
             return MyNotes(
-              Title: NoteList[index][0],
-              Description: NoteList[index][1],
+              Title: NotesScreen.NotesFiltre[index][0],
+              Description: NotesScreen.NotesFiltre[index][1],
               onTapped: () => deleteNote(index),
-              notes: NoteList,
+              notes: NotesScreen.NotesFiltre,
               index: index,
-              formattedDate: NoteList[index][2],
+              formattedDate: NotesScreen.NotesFiltre[index][2],
             );
           },
         ))

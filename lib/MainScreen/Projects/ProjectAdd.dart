@@ -1,5 +1,5 @@
 import "package:azaproject/List/Project.dart";
-import "package:azaproject/MainScreen/pages.dart";
+
 import "package:azaproject/Service/User.dart";
 import "package:azaproject/Util/CalendarState.dart";
 import "package:azaproject/Util/Dialog_Box.dart";
@@ -28,11 +28,7 @@ class _ProjectAddState extends State<ProjectAdd> {
     }
     controller.clear();
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const MyPages(
-                  indice: 1,
-                )));
+        context, MaterialPageRoute(builder: (context) => const ProjectAdd()));
   }
 
   void createNewTask() {
@@ -133,34 +129,28 @@ class _ProjectAddState extends State<ProjectAdd> {
               Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0, left: 15),
-                    child: Row(
-                      children: [Text('Lieu', style: Fonts.boldSecondary)],
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      '(Aucun lieu)',
-                      style: Fonts.regularHintMid,
-                    ),
-                    trailing: const Icon(Icons.map),
-                    onTap: () {},
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: ListTile(
+                        title: Text('Lieu', style: Fonts.boldSecondary),
+                        trailing: const Icon(Icons.map),
+                        onTap: () {},
+                      )),
+                  Text(
+                    '(Aucun lieu)',
+                    style: Fonts.regularHintMid,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0, left: 10),
-                    child: Row(
-                      children: [Text('Tâches', style: Fonts.boldSecondary)],
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      '(Aucune tâche)',
-                      style: Fonts.regularHintMid,
-                    ),
-                    trailing: const Icon(Icons.task),
-                    onTap: () {
-                      createNewTask();
-                    },
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: ListTile(
+                        title: Text('Tâches', style: Fonts.boldSecondary),
+                        trailing: const Icon(Icons.task),
+                        onTap: () {
+                          createNewTask();
+                        },
+                      )),
+                  Text(
+                    '(Aucune tâche)',
+                    style: Fonts.regularHintMid,
                   ),
                 ],
               )

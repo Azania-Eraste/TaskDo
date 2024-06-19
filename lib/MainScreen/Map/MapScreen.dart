@@ -40,8 +40,9 @@ class _MapScreenState extends State<MapScreen> {
         PointLatLng(destination.latitude, destination.longitude));
 
     if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng points) =>
-          Coordinates.add(LatLng(points.latitude, points.longitude)));
+      for (var points in result.points) {
+        Coordinates.add(LatLng(points.latitude, points.longitude));
+      }
     }
     setState(() {});
   }
@@ -49,10 +50,33 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    // Define your marker positions
+    List<LatLng> markerPositions = [
+      _center,
+      destination,
+      LatLng(5.2165, -3.7505),
+      LatLng(5.23,-3.76)
+      // Add more positions here
+    ];
+
+// Create markers
+    Set<Marker> markers = markerPositions.map((position) {
+      return Marker(
+        markerId: MarkerId(position.toString()),
+        position: position,
+        infoWindow: InfoWindow(
+          title: "Marker",
+          snippet:
+              "Latitude: ${position.latitude}, Longitude: ${position.longitude}",
+        ),
+      );
+    }).toSet();
+
     return
         // LocalisationActu == null
         //     ? const Center(
@@ -60,25 +84,15 @@ class _MapScreenState extends State<MapScreen> {
         //       )
         //     :
         GoogleMap(
-      onMapCreated: _onMapCreated,
-      initialCameraPosition: const CameraPosition(
-        target: _center,
-        zoom: 11.0,
-      ),
-      polylines: {
-        Polyline(polylineId: const PolylineId("route"), points: Coordinates)
-      },
-      markers: {
-        const Marker(
-          markerId: MarkerId("Position"),
-          position: _center,
-          infoWindow: InfoWindow(
-            title: "Sydney",
-            snippet: "Capital of New South Wales",
-          ),
-        ),
-        const Marker(markerId: MarkerId('Destination'), position: destination)
-      },
-    );
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: const CameraPosition(
+              target: _center,
+              zoom: 11.0,
+            ),
+            polylines: {
+              Polyline(
+                  polylineId: const PolylineId("route"), points: Coordinates)
+            },
+            markers: markers);
   }
 }

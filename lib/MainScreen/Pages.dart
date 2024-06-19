@@ -1,11 +1,10 @@
+import 'dart:io';
 import 'package:azaproject/List/Task.dart';
 import 'package:azaproject/MainScreen/Calendar/calendarAdd.dart';
 import 'package:azaproject/MainScreen/Calendar/CalendarScreen.dart';
 import 'package:azaproject/MainScreen/Map/MapScreen.dart';
 import 'package:azaproject/MainScreen/Notes/NoteScreen.dart';
 import 'package:azaproject/MainScreen/Notes/NotesAdd.dart';
-import 'package:azaproject/MainScreen/Projects/ProjectAdd.dart';
-import 'package:azaproject/MainScreen/Projects/ProjectScreen.dart';
 import 'package:azaproject/MainScreen/Tasks/TaskScreen.dart';
 import 'package:azaproject/Service/User.dart';
 import 'package:azaproject/Util/Colors.dart';
@@ -13,12 +12,15 @@ import 'package:azaproject/Util/Dialog_Box.dart';
 import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/Search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+// import 'package:image_picker/image_picker.dart';
 
 class MyPages extends StatefulWidget {
   final int? indice;
   static String formatSelected = 'Journalier';
   static DateTime? rappelDate;
+  static int? Tagselected = -1;
   const MyPages({super.key, this.indice = -1});
 
   @override
@@ -29,13 +31,13 @@ class _MyPagesState extends State<MyPages> {
   TextEditingController search = TextEditingController();
   TextEditingController controller = TextEditingController();
   MyColors couleur = MyColors();
-  late double paddingsearch = 0.0;
+  File? _image;
   Taskdata db = Taskdata();
   //list des pages
   late List<Widget> pages;
 
   Search ListSearch() {
-    if (_selectedIndex == 3) {
+    if (_selectedIndex == 2) {
       return Search(NotesScreen.NotesFiltre);
     }
     return Search(TaskScreen.TaskFiltre);
@@ -45,6 +47,12 @@ class _MyPagesState extends State<MyPages> {
   void ajoutTaches() {
     String day = 'a';
     String formattedDate = '';
+    int? tagTask = 0;
+
+    if (MyPages.Tagselected != -1) {
+      tagTask = MyPages.Tagselected;
+    }
+
     if (MyPages.rappelDate != null) {
       switch (MyPages.rappelDate!.weekday) {
         case 1:
@@ -76,7 +84,8 @@ class _MyPagesState extends State<MyPages> {
 
     if (controller.text.isNotEmpty) {
       setState(() {
-        Taskdata.TaskList.add([nom, false, false, formattedDate]);
+        Taskdata.TaskList.add([nom, false, false, formattedDate, tagTask]);
+        MyPages.rappelDate = null;
       });
     }
     db.modifiactionList();
@@ -85,7 +94,7 @@ class _MyPagesState extends State<MyPages> {
         context,
         MaterialPageRoute(
             builder: (context) => const MyPages(
-                  indice: 1,
+                  indice: 0,
                 )));
   }
 
@@ -99,6 +108,9 @@ class _MyPagesState extends State<MyPages> {
             onCancel: () {
               Navigator.pop(context);
             },
+            Label1: 'Sauvegarde',
+            Label2: 'Definir un rappel',
+            itTag: false,
           );
         });
   }
@@ -116,22 +128,6 @@ class _MyPagesState extends State<MyPages> {
         return FloatingActionButton(
           backgroundColor: couleur.TertiaryColors,
           onPressed: () async {
-            // Logique pour la page Notes
-            // ignore: unused_local_variable
-            final results = await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ProjectAdd()));
-          },
-          child: Icon(
-            Icons.add,
-            color: couleur.SecondaryColors,
-            size: 45,
-          ),
-        );
-      case 1:
-        // Page Tâches
-        return FloatingActionButton(
-          backgroundColor: couleur.TertiaryColors,
-          onPressed: () async {
             // Logique pour la page Tâches
             creationTache();
           },
@@ -141,12 +137,12 @@ class _MyPagesState extends State<MyPages> {
             size: 45,
           ),
         );
+      case 1:
+        // Page Tâches
+        return Container();
       case 2:
         // Page Calendrier
         // Pas de bouton flottant pour la page Calendrier, donc retourne un conteneur vide
-        return Container();
-      case 3:
-        // Page Notes
         return FloatingActionButton(
           backgroundColor: couleur.TertiaryColors,
           onPressed: () {
@@ -160,8 +156,8 @@ class _MyPagesState extends State<MyPages> {
             size: 45,
           ),
         );
-      case 4:
-        // Page Map
+      case 3:
+        // Page Notes
         return Container();
       default:
         // Par défaut, retourne un conteneur vide
@@ -180,12 +176,9 @@ class _MyPagesState extends State<MyPages> {
       });
     }
 
-    paddingsearch = 260;
-
     // Initialiser pages après la création de TaskList
     pages = [
-      const ProjectScreen(),
-      TaskScreen(),
+      const TaskScreen(),
       const CalendarScreen(),
       const NotesScreen(),
       const MapScreen(),
@@ -206,6 +199,39 @@ class _MyPagesState extends State<MyPages> {
           ))
       .toList();
 
+  // Future<void> _pickedimage() async {
+  //   final picker = ImagePicker();
+  //   final PickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+  //   setState(() {
+  //     if (PickedFile != null) {
+  //       _image = File(PickedFile.path);
+  //     }
+  //   });
+  // }
+
+  void addPic() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: couleur.SecondaryColors,
+      content: const Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                Icon(Icons.add_a_photo_outlined),
+                Text('appareil photo')
+              ],
+            ),
+          ),
+          Expanded(
+              child: Column(
+            children: [Icon(Icons.add_a_photo_outlined), Text('galery')],
+          ))
+        ],
+      ),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,16 +240,20 @@ class _MyPagesState extends State<MyPages> {
         child: Column(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 0.4,
-              height: MediaQuery.of(context).size.height * 0.3,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: couleur.SecondaryColors),
-              child: Icon(
-                Icons.add_a_photo_outlined,
-                color: couleur.TertiaryColors,
-                size: 30,
-              ),
-            ),
+                width: MediaQuery.of(context).size.width * 0.4,
+                height: MediaQuery.of(context).size.height * 0.3,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: couleur.SecondaryColors),
+                child: IconButton(
+                  onPressed: () {
+                    addPic();
+                  },
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: couleur.TertiaryColors,
+                    size: 30,
+                  ),
+                )),
             Row(
               children: [
                 Padding(
@@ -288,17 +318,17 @@ class _MyPagesState extends State<MyPages> {
           ],
         ),
       ),
-      appBar: _selectedIndex == 4
+      appBar: _selectedIndex == 3
           ? null
           : AppBar(
               primary: true,
               automaticallyImplyLeading: false,
-              backgroundColor: _selectedIndex != 2
+              backgroundColor: _selectedIndex != 1
                   ? couleur.Screen
                   : couleur.SecondaryColors,
               actions: [
-                _selectedIndex != 2
-                    ? _selectedIndex != 0
+                _selectedIndex != 1
+                    ? _selectedIndex != 3
                         ? IconButton(
                             onPressed: () {
                               showSearch(
@@ -308,7 +338,7 @@ class _MyPagesState extends State<MyPages> {
                         : Container()
                     : Container()
               ],
-              title: _selectedIndex != 2
+              title: _selectedIndex != 1
                   ? const SafeArea(
                       child: Row(
                       children: [
@@ -351,7 +381,7 @@ class _MyPagesState extends State<MyPages> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => const MyPages(
-                                                indice: 2,
+                                                indice: 1,
                                               )));
                                 }
                               },
@@ -389,10 +419,6 @@ class _MyPagesState extends State<MyPages> {
             activeColor: couleur.primarycolors,
             color: Colors.grey,
             tabs: const [
-              GButton(
-                icon: Icons.square_outlined,
-                text: 'Projet',
-              ),
               GButton(
                 icon: Icons.toc_outlined,
                 text: 'Tâches',

@@ -31,10 +31,12 @@ class TaskTile extends StatelessWidget {
     required this.controller,
     required this.OnModify,
   });
-  MyColors couleur =  MyColors();
+  MyColors couleur = MyColors();
   int getIndex() {
     return index;
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +56,11 @@ class TaskTile extends StatelessWidget {
                         index: index,
                         controller: controller,
                         onSave: OnModify,
+                        Label1: 'Sauvegarde',
+                        Label2: 'Definir un rappel',
                         onCancel: () {
                           Navigator.pop(context);
-                        });
+                        }, itTag: false,);
                   });
             },
             icon: Icons.note,
@@ -145,74 +149,3 @@ class TaskTile extends StatelessWidget {
 }
 
 
-/*Container(
-          width: MediaQuery.of(context).size.width * .87,
-          padding: EdgeInsets.all(24),
-          child: Column(
-            children: [
-              
-              //icon
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  MyIcon(
-                    iconFalse: Icons.bookmark_outline,
-                    icontrue: Icons.bookmark,
-                    Onchanged: OnPressed,
-                    value: check,
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  //checkBox
-                  Checkbox(
-                    focusColor: check
-                        ? couleur.TertiaryColors
-                        : couleur.SecondaryColors,
-                    checkColor:
-                        check ? couleur.SecondaryColors : couleur.primarycolors,
-                    value: isDone,
-                    onChanged: OnChanged,
-                    activeColor: check
-                        ? couleur.TertiaryColors
-                        : couleur.SecondaryColors,
-                  ),
-                  //Titre
-                  Text(
-                    TacheTitre,
-                    style: TextStyle(
-                        color: check
-                            ? couleur.TertiaryColors
-                            : couleur.SecondaryColors,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        decoration: isDone
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(date,
-                      style: TextStyle(
-                        color: check
-                            ? couleur.TertiaryColors
-                            : couleur.SecondaryColors,
-                        fontWeight: FontWeight.bold,
-                      ))
-                ],
-              )
-            ],
-          ),
-          decoration: BoxDecoration(
-              color: couleur.primarycolors,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                  color: check
-                      ? couleur.TertiaryColors
-                      : couleur.SecondaryColors)),
-        ),
-        */

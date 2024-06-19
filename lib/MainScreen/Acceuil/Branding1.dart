@@ -58,7 +58,7 @@ class _BRanding1State extends State<BRanding1> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.14,
+                height: MediaQuery.of(context).size.height * 0.1,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

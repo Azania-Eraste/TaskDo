@@ -23,6 +23,7 @@ class _SignIn_1State extends State<SignIn_1> {
     return Scaffold(
       backgroundColor: couleur.Screen,
       appBar: AppBar(
+        backgroundColor: couleur.Screen,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -119,30 +120,33 @@ class _SignIn_1State extends State<SignIn_1> {
                       width: 360,
                       height: 60,
                       child: MyBottom(
-                          text: 'Continuer',
-                          onPressed: () {
-                            if (nomControlleur.text.isNotEmpty &&
-                                prenomControlleur.text.isNotEmpty &&
-                                _selectedGender != '') {
-                              setState(() {
-                                User.name = nomControlleur.text;
-                                User.surname = prenomControlleur.text;
-                                User.gender = _selectedGender;
-                              });
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const SignIn_2()));
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Champ non rempli'),
-                                  duration: Duration(seconds: 3),
-                                ),
-                              );
-                            }
-                          },
-                          textStyle: Fonts.boldPrimaryMid)),
+                        child: Text(
+                          'Continuer',
+                          style: Fonts.boldPrimaryMid,
+                        ),
+                        onPressed: () {
+                          if (nomControlleur.text.isNotEmpty &&
+                              prenomControlleur.text.isNotEmpty &&
+                              _selectedGender != '') {
+                            setState(() {
+                              User.name = nomControlleur.text;
+                              User.surname = prenomControlleur.text;
+                              User.gender = _selectedGender;
+                            });
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignIn_2()));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Champ non rempli'),
+                                duration: Duration(seconds: 3),
+                              ),
+                            );
+                          }
+                        },
+                      )),
                 )
               ],
             ),

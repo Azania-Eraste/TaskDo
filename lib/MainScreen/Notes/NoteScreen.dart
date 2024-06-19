@@ -18,7 +18,7 @@ class NotesScreen extends StatefulWidget {
 
 class _NotesScreenState extends State<NotesScreen> {
   int notes = 0;
-  NoteData _noteData = NoteData();
+  final NoteData _noteData = NoteData();
   //Reference de la base de donnée
 
   void verificatedeletedNote(int index) {

@@ -3,8 +3,6 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class MeetingData {
   //référence de la base de donnée
-
-  final _box = Hive.box("TaskDo");
   static List<Appointment> meeting = [];
 
   initData() {
@@ -19,11 +17,4 @@ class MeetingData {
     return meeting;
   }
 
-  void chargementData() {
-    meeting = _box.get("MeetingList");
-  }
-
-  void modifiactionList() {
-    _box.put("MeetingList", meeting);
-  }
 }

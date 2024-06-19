@@ -20,6 +20,7 @@ class _EmailState extends State<Email> {
     return Scaffold(
       backgroundColor: couleur.Screen,
       appBar: AppBar(
+        backgroundColor: couleur.Screen,
         title: Center(
           child: Text(
             'Recherche du compte',
@@ -67,7 +68,7 @@ class _EmailState extends State<Email> {
                     width: 360,
                     height: 60,
                     child: MyBottom(
-                      text: 'Continuer',
+                      child: Text('Continuer', style: Fonts.boldPrimaryMid,),
                       onPressed: () {
                         if (email.text.isNotEmpty) {
                           Navigator.pushReplacement(
@@ -77,7 +78,7 @@ class _EmailState extends State<Email> {
                                       const CodeVerification())));
                         }
                       },
-                      textStyle: Fonts.boldPrimaryMid,
+                    
                     )),
               )
             ],

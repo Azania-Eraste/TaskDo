@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class Day_details extends StatefulWidget {
   final DateTime? date;
   final List<dynamic>? appointments;
-  Day_details({super.key, required this.date, required this.appointments});
+  const Day_details({super.key, required this.date, required this.appointments});
 
   @override
   State<Day_details> createState() => _Day_detailsState();

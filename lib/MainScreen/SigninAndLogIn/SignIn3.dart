@@ -22,6 +22,7 @@ class _SignIn_3State extends State<SignIn_3> {
     return Scaffold(
         backgroundColor: couleur.Screen,
         appBar: AppBar(
+          backgroundColor: couleur.Screen,
           title: Center(
             child: Text('Créer un compte', style: Fonts.boldSecondaryMid),
           ),
@@ -80,32 +81,34 @@ class _SignIn_3State extends State<SignIn_3> {
                         width: 360,
                         height: 60,
                         child: MyBottom(
-                            text: 'Continuer',
-                            onPressed: () {
-                              if (date_de_naissance_Controlleur
-                                      .text.isNotEmpty &&
-                                  EmailControlleur.text.isNotEmpty &&
-                                  NumControlleur.text.isNotEmpty) {
-                                setState(() {
-                                  User.dateNaiss =
-                                      date_de_naissance_Controlleur.text;
-                                  User.email = EmailControlleur.text;
-                                  User.number = NumControlleur.text;
-                                });
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const MyPages()));
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Champ non rempli'),
-                                    duration: Duration(seconds: 3),
-                                  ),
-                                );
-                              }
-                            },
-                            textStyle: Fonts.boldPrimaryMid)),
+                          child: Text(
+                            'Continuer',
+                            style: Fonts.boldPrimaryMid,
+                          ),
+                          onPressed: () {
+                            if (date_de_naissance_Controlleur.text.isNotEmpty &&
+                                EmailControlleur.text.isNotEmpty &&
+                                NumControlleur.text.isNotEmpty) {
+                              setState(() {
+                                User.dateNaiss =
+                                    date_de_naissance_Controlleur.text;
+                                User.email = EmailControlleur.text;
+                                User.number = NumControlleur.text;
+                              });
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const MyPages()));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Champ non rempli'),
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
+                            }
+                          },
+                        )),
                   )
                 ],
               ),

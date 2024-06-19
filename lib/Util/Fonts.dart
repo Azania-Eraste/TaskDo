@@ -8,8 +8,8 @@ class Fonts {
   static double regularpolice = 14;
   static double regularMIdpolice = 20;
   static double boldSMallpolice = 20;
-  static double boldpolice = 35;
-  static double boldBigpolice = 45;
+  static double boldpolice = 30;
+  static double boldBigpolice = 40;
 
   //regularSmall
   static TextStyle regularPrimarySmall = TextStyle(
@@ -30,16 +30,19 @@ class Fonts {
   static TextStyle regularHintSmall = TextStyle(
     color: couleur.HintText,
     fontSize: regularSmallpolice,
-    fontFamily: fontFamily,);
+    fontFamily: fontFamily,
+  );
   static TextStyle regularTertiarySmall = TextStyle(
     color: couleur.TertiaryColors,
     fontSize: regularSmallpolice,
-    fontFamily: fontFamily,);
+    fontFamily: fontFamily,
+  );
   //regular
   static TextStyle regularBlack = TextStyle(
     color: couleur.Text,
     fontSize: regularpolice,
-    fontFamily: fontFamily,);
+    fontFamily: fontFamily,
+  );
   static TextStyle regularPrimary = TextStyle(
       color: couleur.primarycolors,
       fontSize: regularpolice,
@@ -49,14 +52,13 @@ class Fonts {
       fontSize: regularpolice,
       fontFamily: fontFamily);
   static TextStyle regularHint = TextStyle(
-      color: couleur.HintText,
-      fontSize: regularpolice,
-      fontFamily: fontFamily);
+      color: couleur.HintText, fontSize: regularpolice, fontFamily: fontFamily);
   //regularMid
   static TextStyle regularBlackMId = TextStyle(
     color: couleur.Text,
     fontSize: regularMIdpolice,
-    fontFamily: fontFamily,);
+    fontFamily: fontFamily,
+  );
   static TextStyle regularPrimaryMid = TextStyle(
       color: couleur.primarycolors,
       fontSize: regularMIdpolice,

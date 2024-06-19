@@ -1,26 +1,36 @@
+import 'package:azaproject/List/Task.dart';
+import 'package:azaproject/MainScreen/Tasks/TaskScreen.dart';
 import 'package:azaproject/MainScreen/pages.dart';
 import 'package:azaproject/Util/Colors.dart';
 import 'package:azaproject/Util/Fonts.dart';
 import 'package:azaproject/Util/MyBottom.dart';
 import 'package:azaproject/Util/TextField.dart';
+import 'package:azaproject/Util/TextFormField.dart';
+import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:flutter/material.dart';
 
 class BoiteDialogue extends StatefulWidget {
   final TextEditingController controller;
   final VoidCallback onSave;
   final VoidCallback onCancel;
-  final VoidCallback? onModify;
+  final VoidCallback? Tag;
   final List? task;
   final int? index;
+  final bool itTag;
+  final String Label1;
+  final String Label2;
 
   const BoiteDialogue({
     super.key,
     required this.controller,
     required this.onSave,
     required this.onCancel,
-    this.task = null,
+    this.task,
     this.index,
-    this.onModify,
+    required this.Label1,
+    required this.Label2,
+    required this.itTag,
+    this.Tag,
   });
   static TextEditingController contenu = TextEditingController();
   @override
@@ -30,6 +40,8 @@ class BoiteDialogue extends StatefulWidget {
 class BoiteDialogueState extends State<BoiteDialogue> {
   MyColors couleur = MyColors();
   DateTime? selectedDateStart = DateTime.now();
+  int tag = 0;
+  List optionChoice = Taskdata.TagList;
 
   @override
   void initState() {
@@ -45,7 +57,7 @@ class BoiteDialogueState extends State<BoiteDialogue> {
       context: context,
       initialDate: selectedDateStart ?? DateTime.now(),
       firstDate: DateTime(1999),
-      lastDate: DateTime.now().add(const Duration(days: 1000)),
+      lastDate: DateTime.now().add(const Duration(days: 10000)),
       cancelText: 'Annuler',
     );
 
@@ -70,6 +82,48 @@ class BoiteDialogueState extends State<BoiteDialogue> {
     return null;
   }
 
+  Future<int?> tagPicker() async {
+    final int? pickedTag = await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Tag"),
+            content: ChipsChoice.single(
+              value: tag,
+              onChanged: (value) {
+                setState(() {
+                  tag = value;
+                });
+                Navigator.pop(context);
+              },
+              choiceItems: C2Choice.listFrom(
+                  source: optionChoice,
+                  value: ((index, item) => index),
+                  label: ((index, item) => item)),
+              choiceActiveStyle: const C2ChoiceStyle(
+                  backgroundColor: Color.fromARGB(255, 06, 79, 96),
+                  labelStyle:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  borderColor: Color.fromARGB(255, 255, 173, 71),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              choiceStyle: const C2ChoiceStyle(
+                  backgroundColor: Color.fromARGB(182, 248, 248, 255),
+                  labelStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600),
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              wrapped: true,
+            ),
+          );
+        });
+
+    return tag;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: //Titre
@@ -82,48 +136,61 @@ class BoiteDialogueState extends State<BoiteDialogue> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             //textbox
-            MyTextField(
-              Radius: 20,
-              text: 'Créer une nouvelle tâche',
+            MytextFormField(
+              radius: 20,
+              HintText: 'Créer',
               style: Fonts.regularHint,
-              fillcolor: Colors.transparent,
               controller: widget.task == null
                   ? widget.controller
                   : BoiteDialogue.contenu,
-              PasswordChar: false,
+              validator: (p0) {
+                if (Taskdata.DoubleTag(p0) == true) {
+                  return 'Tag en double';
+                }
+              },
             ),
             //boutton
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    //Boutton de rappel
-                    MyBottom(
-                        text: 'Définir un rappel',
-                        onPressed: () async {
-                          MyPages.rappelDate = await dateTimePicker();
-                        })
+                    widget.itTag
+                        ? MyBottom(
+                            child: Text('${widget.Label2}'),
+                            onPressed: widget.onCancel)
+                        :
+                        //Boutton de rappel
+                        MyBottom(
+                            child: Icon(Icons.alarm),
+                            onPressed: () async {
+                              MyPages.rappelDate = await dateTimePicker();
+                            })
                   ],
                 ),
                 const SizedBox(
-                  width: 20,
+                  width: 5,
                 ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     //bouton de sauvegarde
                     MyBottom(
-                        textStyle: Fonts.regularBlack,
-                        text: widget.task != null && widget.task!.isNotEmpty
-                            ? 'Modifier'
-                            : 'Sauvegarder',
+                        child: Text(
+                          '${widget.Label1}',
+                          style: Fonts.regularBlack,
+                        ),
                         onPressed: widget.onSave),
                   ],
                 ),
               ],
             ),
+            widget.itTag
+                ? Container()
+                : MyBottom(
+                    child: Text('Ajouter un tag'),
+                    onPressed: () async {
+                      MyPages.Tagselected = await tagPicker();
+                    })
           ],
         ),
       ),

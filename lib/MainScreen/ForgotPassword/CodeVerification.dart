@@ -89,7 +89,7 @@ class _CodeVerificationState extends State<CodeVerification> {
                   width: 360,
                   height: 60,
                   child: MyBottom(
-                    text: 'Terminer',
+                    child: Text('Terminer', style: Fonts.boldPrimaryMid,),
                     onPressed: () {
                       if (code1Controller.text.isNotEmpty &&
                           code2Controller.text.isNotEmpty &&
@@ -101,7 +101,6 @@ class _CodeVerificationState extends State<CodeVerification> {
                                 builder: ((context) => const MyPages())));
                       }
                     },
-                    textStyle: Fonts.boldPrimaryMid,
                   )),
             )
           ]),

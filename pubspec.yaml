@@ -35,7 +35,6 @@ dependencies:
   flutter_slidable: ^3.1.0
   flutter_svg: ^2.0.10+1
   cupertino_icons: ^1.0.2
-  provider: ^6.1.2
   flutter_context_menu: ^0.1.3
   google_maps_flutter: ^2.2.8
   google_maps_flutter_web: ^0.5.6+2
@@ -43,6 +42,10 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_polyline_points: ^2.0.0
+  chips_choice_null_safety: ^2.0.6
+  # image_picker: ^1.1.2
+  # firebase_core: ^2.32.0
+  # firebase_auth: ^4.20.0
   # location: ^5.0.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -54,12 +57,21 @@ dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
   hive_generator: ^2.0.1
   build_runner: ^2.4.9
+  flutter_native_splash: ^2.0.0
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.1
+
+flutter_native_splash:
+  color: "#F0F8FF"  # Couleur de fond de votre splash screen
+  image: asset/Logo TaskDo.png  # Chemin vers votre image de splash screen
+  android: true  # Active le splash screen pour Android
+  ios: true  # Active le splash screen pour iOS
+  web: true  # Active le splash screen pour le Web (optionnel)
+  android_disable_fullscreen: true  # Désactive le mode plein écran pour Android (optionnel)
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

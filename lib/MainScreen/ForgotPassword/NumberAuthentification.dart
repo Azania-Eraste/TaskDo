@@ -19,7 +19,7 @@ class _NumberState extends State<Number> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: couleur.Screen,
-      appBar: AppBar(
+      appBar: AppBar(backgroundColor: couleur.Screen,
         title: Center(
           child: Text(
             'Recherche du compte',
@@ -67,7 +67,7 @@ class _NumberState extends State<Number> {
                     width: 360,
                     height: 60,
                     child: MyBottom(
-                      text: 'Continuer',
+                      child: Text('Continuer', style: Fonts.boldPrimaryMid,),
                       onPressed: () {
                         if (numero.text.isNotEmpty) {
                           Navigator.pushReplacement(
@@ -77,7 +77,7 @@ class _NumberState extends State<Number> {
                                       const CodeVerification())));
                         }
                       },
-                      textStyle: Fonts.boldPrimaryMid,
+                    
                     )),
               )
             ],

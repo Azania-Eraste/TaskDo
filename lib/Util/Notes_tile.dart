@@ -49,19 +49,19 @@ class MyNotes extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 text: TextSpan(
-                    text: Title + '\n',
+                    text: '$Title\n',
                     style: Fonts.boldSecondary,
                     children: [
                       TextSpan(text: Description, style: Fonts.regularSecondary)
                     ])),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: Text('Edité le ' + formattedDate,
+              child: Text('Edité le $formattedDate',
                   style: Fonts.regularSecondarySmall),
             ),
             trailing: GestureDetector(
               onTap: onTapped,
-              child: Icon(Icons.delete),
+              child: const Icon(Icons.delete),
             ),
           ),
         ),

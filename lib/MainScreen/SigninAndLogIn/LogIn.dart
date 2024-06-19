@@ -23,7 +23,7 @@ class _LogInScreenState extends State<LogInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Expanded(
+        title: SafeArea(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -34,11 +34,11 @@ class _LogInScreenState extends State<LogInScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 100.0, left: 14, right: 14),
+          padding: const EdgeInsets.only(top: 75.0, left: 14, right: 14),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 30.0, bottom: 20),
+                padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                 child: Form(
                     child: MyTextField(
                   fillcolor: Colors.transparent,
@@ -51,7 +51,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 )),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 30.0, bottom: 20),
+                padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                 child: Form(
                     child: MyTextField(
                   fillcolor: Colors.transparent,
@@ -89,21 +89,24 @@ class _LogInScreenState extends State<LogInScreen> {
                     width: 350,
                     height: 60,
                     child: MyBottom(
-                        text: 'Se connecter',
-                        onPressed: () {
-                          if (nomControlleur.text.isNotEmpty &&
-                              passwordControlleur.text.isNotEmpty) {
-                            setState(() {
-                              User.name = nomControlleur.text;
-                              User.password = passwordControlleur.text;
-                            });
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MyPages()));
-                          }
-                        },
-                        textStyle: Fonts.boldPrimaryMid)),
+                      child: Text(
+                        'Se connecter',
+                        style: Fonts.boldPrimaryMid,
+                      ),
+                      onPressed: () {
+                        if (nomControlleur.text.isNotEmpty &&
+                            passwordControlleur.text.isNotEmpty) {
+                          setState(() {
+                            User.name = nomControlleur.text;
+                            User.password = passwordControlleur.text;
+                          });
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MyPages()));
+                        }
+                      },
+                    )),
               ),
               Padding(
                 padding: const EdgeInsets.all(30.0),
@@ -203,6 +206,22 @@ class _LogInScreenState extends State<LogInScreen> {
                         ),
                       ],
                     )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    MyBottom(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MyPages()));
+                      },
+                      child: const Text('Skip'),
+                    ),
                   ],
                 ),
               )

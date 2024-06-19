@@ -1,13 +1,12 @@
 import 'package:azaproject/Util/CalendarState.dart';
 import 'package:azaproject/Util/Fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ProjectStarted extends StatefulWidget {
   final String? subtitle;
   final String title;
   final String Date;
-  ProjectStarted(
+  const ProjectStarted(
       {super.key, this.subtitle, required this.title, required this.Date});
 
   @override
@@ -46,7 +45,7 @@ class _ProjectStartedState extends State<ProjectStarted> {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
                 width: 30,
                 child: LinearProgressIndicator(

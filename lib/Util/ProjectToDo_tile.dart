@@ -16,14 +16,18 @@ class ProjectTile extends StatelessWidget {
     required this.sous_titre,
     required this.lieux,
   });
-  MyColors couleur = new MyColors();
+  MyColors couleur = MyColors();
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.4,
-        padding: EdgeInsets.only(left: 15, right: 15, top: 7, bottom: 7),
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 7, bottom: 7),
+        decoration: BoxDecoration(
+            color: couleur.TertiaryColors,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: couleur.SecondaryColors)),
         child: Column(
           children: [
             Row(
@@ -47,7 +51,7 @@ class ProjectTile extends StatelessWidget {
                   date,
                   style: Fonts.regularSecondary,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Padding(
@@ -58,10 +62,6 @@ class ProjectTile extends StatelessWidget {
             )
           ],
         ),
-        decoration: BoxDecoration(
-            color: couleur.TertiaryColors,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: couleur.SecondaryColors)),
       ),
     );
   }

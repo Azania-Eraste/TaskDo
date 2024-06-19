@@ -16,13 +16,14 @@ class SignIn_2 extends StatefulWidget {
 class _SignIn_2State extends State<SignIn_2> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController nom_d_utilisateur_controlleur =
+    TextEditingController nomDUtilisateurControlleur =
         TextEditingController();
     TextEditingController MotDePasseControlleur = TextEditingController();
     TextEditingController ConfMotDePasseControlleur = TextEditingController();
     return Scaffold(
       backgroundColor: couleur.Screen,
       appBar: AppBar(
+        backgroundColor: couleur.Screen,
         title: Center(
           child: Text('Créer un compte', style: Fonts.boldSecondaryMid),
         ),
@@ -42,7 +43,7 @@ class _SignIn_2State extends State<SignIn_2> {
                     Radius: 5,
                     HintStyle: Fonts.regularHint,
                     text: 'Nom d\' utilisateur',
-                    controller: nom_d_utilisateur_controlleur,
+                    controller: nomDUtilisateurControlleur,
                     PasswordChar: false,
                   )),
                 ),
@@ -78,15 +79,15 @@ class _SignIn_2State extends State<SignIn_2> {
                       width: 360,
                       height: 60,
                       child: MyBottom(
-                          text: 'Continuer',
+                          child: Text('Continuer', style: Fonts.boldPrimaryMid,),
                           onPressed: () {
-                            if (nom_d_utilisateur_controlleur.text.isNotEmpty &&
+                            if (nomDUtilisateurControlleur.text.isNotEmpty &&
                                 MotDePasseControlleur.text.isNotEmpty) {
                               if (ConfMotDePasseControlleur.text ==
                                   MotDePasseControlleur.text) {
                                 setState(() {
                                   User.userName =
-                                      nom_d_utilisateur_controlleur.text;
+                                      nomDUtilisateurControlleur.text;
                                   User.password = MotDePasseControlleur.text;
                                 });
                                 Navigator.pushReplacement(
@@ -111,7 +112,7 @@ class _SignIn_2State extends State<SignIn_2> {
                               );
                             }
                           },
-                          textStyle: Fonts.boldPrimaryMid)),
+                        )),
                 )
               ],
             ),

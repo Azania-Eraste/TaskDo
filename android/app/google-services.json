@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "152317608582",
+    "project_id": "taskdo-4be79",
+    "storage_bucket": "taskdo-4be79.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152317608582:android:31b4445fde57524b49c707",
+        "android_client_info": {
+          "package_name": "com.example.azaproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZmkkvxA4J2tNo4bc0Y2apEHm0HLg0wj8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

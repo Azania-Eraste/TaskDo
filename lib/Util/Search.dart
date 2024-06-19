@@ -38,7 +38,9 @@ class Search extends SearchDelegate {
           var resultat = suggestions[index];
           return ListTile(
             title: Text(resultat),
-            
+            onTap: () {
+              
+            },
           );
         });
   }

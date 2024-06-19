@@ -45,7 +45,7 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: Width,
-      padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: TextField(
         onTap: onTap,
         keyboardType: keyboardType,
@@ -56,7 +56,7 @@ class MyTextField extends StatelessWidget {
         style: style,
         decoration: InputDecoration(
           border: border,
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           hintText: text,
           hintStyle: HintStyle,
           suffixIcon: Icon(

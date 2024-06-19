@@ -21,7 +21,6 @@ class _CalendarAddState extends State<CalendarAdd> {
   late bool ValueRappel;
   DateTime selectedDateEnd = DateTime.now().add(const Duration(hours: 1));
   DateTime selectedDateStart = DateTime.now();
-  MeetingData _dbMeeting = MeetingData();
   @override
   void initState() {
     super.initState();
@@ -83,7 +82,7 @@ class _CalendarAddState extends State<CalendarAdd> {
   ];
   static const RappelItems = <String>[
     'Lorsque l\'évènement commence'
-        '5 minutes avant que l\'évènement commence',
+    '5 minutes avant que l\'évènement commence',
     '10 minutes avant que l\'évènement commence ',
     '15 minutes avant que l\'évènement commence',
     '30 minutes avant que l\'évènement commence',
@@ -369,12 +368,11 @@ class _CalendarAddState extends State<CalendarAdd> {
             subject: nomEvent.text,
             notes: DescripEevnt.text,
           ));
-          _dbMeeting.modifiactionList();
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => const MyPages(
-                        indice: 2,
+                        indice: 1,
                       )));
         },
         child: Icon(

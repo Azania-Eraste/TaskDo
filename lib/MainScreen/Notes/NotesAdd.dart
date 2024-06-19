@@ -20,7 +20,7 @@ class _NotesAddState extends State<NotesAdd> {
   TextEditingController Titrecontrolleur = TextEditingController();
   TextEditingController Contenucontrolleur = TextEditingController();
   FocusNode titleFocusNode = FocusNode();
-  NoteData _noteData = NoteData();
+  final NoteData _noteData = NoteData();
   final _box = Hive.box('TaskDo');
 
   @override
@@ -120,7 +120,7 @@ class _NotesAddState extends State<NotesAdd> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const MyPages(
-                                      indice: 3,
+                                      indice: 2,
                                     )));
                       },
                       icon: Icon(
